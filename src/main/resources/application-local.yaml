@@ -1,0 +1,38 @@
+spring:
+  application:
+    name: google-auth
+  security:
+    oauth2:
+      client:
+        registration:
+          google:
+            clientId: ${CLIENT_ID}
+            clientSecret: ${CLIENT_SECRET}
+            redirectUri: "{baseUrl}/oauth2/callback/{registrationId}"
+            scope:
+              - email
+              - profile
+  groovy:
+    template:
+      check-template-location: false
+
+outbound:
+  feign:
+    auth-handler:
+      schema: http
+      host: localhost
+      port: ${GOOGLE_AUTH_OUTBOUND_FEIGN_CLIENT_PORT}
+      path: google
+
+server:
+  port: ${GOOGLE_AUTH_APP_PORT}
+
+management:
+  server:
+    port: ${GOOGLE_AUTH_MANAGEMENT_PORT}
+  endpoints:
+    web:
+      exposure:
+        include:
+          - health
+          - prometheus
