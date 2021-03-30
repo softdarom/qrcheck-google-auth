@@ -5,8 +5,11 @@ plugins {
 }
 
 group = "ru.softdarom.qrcheck"
-version = "0.0.1-SNAPSHOT"
 sourceCompatibility = "11"
+
+bootJar {
+    archiveFileName = "google-auth.jar"
+}
 
 configurations {
     annotationProcessor {
