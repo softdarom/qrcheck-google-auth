@@ -6,7 +6,6 @@ import org.springframework.security.oauth2.core.OAuth2AccessToken;
 import java.time.Instant;
 import java.time.LocalDateTime;
 import java.time.ZoneOffset;
-import java.util.Objects;
 import java.util.Set;
 
 @Data
@@ -35,9 +34,6 @@ public class GoogleTokenDto {
         }
 
         private LocalDateTime extract(Instant instant) {
-            if (Objects.isNull(instant)) {
-                return null;
-            }
             return LocalDateTime.ofInstant(instant, ZoneOffset.UTC);
         }
     }
