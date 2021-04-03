@@ -1,5 +1,6 @@
-package ru.softdarom.qrcheck.auth.google.service.impl.google;
+package ru.softdarom.qrcheck.auth.google.service.google;
 
+import lombok.Generated;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.oauth2.client.registration.ClientRegistrationRepository;
 import org.springframework.security.oauth2.client.web.DefaultOAuth2AuthorizationRequestResolver;
@@ -11,6 +12,7 @@ import org.springframework.stereotype.Service;
 import javax.servlet.http.HttpServletRequest;
 import java.util.LinkedHashMap;
 
+@Generated
 @Service
 public class GoogleAuthorizationRequestResolver implements OAuth2AuthorizationRequestResolver {
 

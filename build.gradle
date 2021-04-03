@@ -2,6 +2,7 @@ plugins {
     id "org.springframework.boot" version "2.4.4"
     id "io.spring.dependency-management" version "1.0.11.RELEASE"
     id "java-library"
+    id "jacoco"
 }
 
 group = "ru.softdarom.qrcheck"
@@ -31,6 +32,8 @@ ext {
     set("feignVersion", "11.1")
     set("micrometerVersion", "1.5.4")
     set("groovyVersion", "3.0.7")
+    set("junitVersion", "5.4.2")
+    set("wiremockVersion", "2.27.2")
 }
 
 dependencyManagement {
@@ -45,11 +48,9 @@ dependencies {
     api "org.springframework.boot:spring-boot-starter-web"
     api "org.springframework.boot:spring-boot-starter-actuator"
     api "org.springframework.cloud:spring-cloud-starter-sleuth"
+    api "org.springframework.cloud:spring-cloud-starter-openfeign"
 
     api "javax.validation:validation-api:${javaxVersion}"
-    api "io.github.openfeign:feign-okhttp:${feignVersion}"
-    api "io.github.openfeign:feign-gson:${feignVersion}"
-    api "io.github.openfeign:feign-slf4j:${feignVersion}"
     api "io.micrometer:micrometer-registry-prometheus:${micrometerVersion}"
 
     runtimeOnly "org.codehaus.groovy:groovy-all:${groovyVersion}"
@@ -57,12 +58,45 @@ dependencies {
     compileOnly "org.projectlombok:lombok"
     compileOnly "org.springframework.boot:spring-boot-configuration-processor"
 
+    testCompileOnly "org.projectlombok:lombok"
+    testCompileOnly "org.springframework.boot:spring-boot-configuration-processor"
+
     developmentOnly "org.springframework.boot:spring-boot-devtools"
 
     testImplementation "org.springframework.boot:spring-boot-starter-test"
     testImplementation "org.springframework.security:spring-security-test"
+    testImplementation "org.junit.jupiter:junit-jupiter:${junitVersion}"
+    testImplementation "com.github.tomakehurst:wiremock:${wiremockVersion}"
+
+}
+
+jacocoTestReport {
+    reports {
+        html {
+            enabled false
+        }
+        xml {
+            enabled true
+            destination file("${buildDir}/jacoco/coverage.xml")
+        }
+    }
+}
+
+jacocoTestCoverageVerification {
+    violationRules {
+        rule {
+            limit {
+                counter = "LINE"
+                value = "COVEREDRATIO"
+                minimum = 0.8
+            }
+        }
+    }
 }
 
 test {
-    useJUnitPlatform()
+    useJUnitPlatform {
+        includeTags "spring-mock", "spring-integration", "unit"
+    }
+    finalizedBy(jacocoTestReport, jacocoTestCoverageVerification)
 }

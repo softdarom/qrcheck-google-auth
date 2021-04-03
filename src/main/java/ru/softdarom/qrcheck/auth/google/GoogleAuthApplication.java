@@ -1,14 +1,15 @@
 package ru.softdarom.qrcheck.auth.google;
 
+import lombok.Generated;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
-import org.springframework.boot.context.properties.EnableConfigurationProperties;
+import org.springframework.cloud.openfeign.EnableFeignClients;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
-import ru.softdarom.qrcheck.auth.google.config.property.FeignClientProperties;
 
+@Generated
 @SpringBootApplication
 @EnableWebSecurity
-@EnableConfigurationProperties({FeignClientProperties.class})
+@EnableFeignClients
 public class GoogleAuthApplication {
 
     public static void main(String[] args) {

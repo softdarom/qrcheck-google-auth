@@ -1,4 +1,4 @@
-package ru.softdarom.qrcheck.auth.google.service.impl.google;
+package ru.softdarom.qrcheck.auth.google.service.google;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.oauth2.client.userinfo.DefaultOAuth2UserService;
@@ -9,22 +9,22 @@ import ru.softdarom.qrcheck.auth.google.builder.GoogleTokenBuilder;
 import ru.softdarom.qrcheck.auth.google.builder.GoogleUserBuilder;
 import ru.softdarom.qrcheck.auth.google.model.dto.GoogleTokenDto;
 import ru.softdarom.qrcheck.auth.google.model.dto.GoogleUserDto;
-import ru.softdarom.qrcheck.auth.google.service.UserSaverService;
+import ru.softdarom.qrcheck.auth.google.service.UserHandlerService;
 
 @Service
 public class GoogleOAuth2UserService extends DefaultOAuth2UserService {
 
-    private final UserSaverService userSaverService;
+    private final UserHandlerService userHandlerService;
 
     @Autowired
-    GoogleOAuth2UserService(UserSaverService userSaverService) {
-        this.userSaverService = userSaverService;
+    GoogleOAuth2UserService(UserHandlerService userHandlerService) {
+        this.userHandlerService = userHandlerService;
     }
 
     @Override
     public OAuth2User loadUser(OAuth2UserRequest oAuth2UserRequest) {
         var oAuth2User = super.loadUser(oAuth2UserRequest);
-        userSaverService.saveOrUpdate(getGoogleOAuth2User(oAuth2User), getGoogleToken(oAuth2UserRequest));
+        userHandlerService.saveOrUpdate(getGoogleOAuth2User(oAuth2User), getGoogleToken(oAuth2UserRequest));
         return oAuth2User;
     }
 
