@@ -14,4 +14,5 @@ public interface AuthHandlerExternalService {
 
     @GetMapping("/users/{email}")
     void exist(@PathVariable("email") String email);
+
 }
