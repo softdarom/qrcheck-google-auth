@@ -85,24 +85,10 @@ jacocoTestReport {
 jacocoTestCoverageVerification {
     violationRules {
         rule {
-            element = "CLASS"
-            excludes = [
-                    "ru.softdarom.qrcheck.auth.google.GoogleAuthApplication"
-            ]
-        }
-        rule {
-            element = "PACKAGE"
-            includes = [
-                    "ru.softdarom.qrcheck.auth.google.builder",
-                    "ru.softdarom.qrcheck.auth.google.config",
-                    "ru.softdarom.qrcheck.auth.google.model",
-                    "ru.softdarom.qrcheck.auth.google.rest",
-                    "ru.softdarom.qrcheck.auth.google.service"
-            ]
             limit {
                 counter = "LINE"
                 value = "COVEREDRATIO"
-                minimum = 0.8
+                minimum = 0.7
             }
         }
     }
