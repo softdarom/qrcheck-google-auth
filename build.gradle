@@ -90,7 +90,6 @@ jacocoTestCoverageVerification {
                 value = "COVEREDRATIO"
                 minimum = 0.8
             }
-
         }
     }
 }
