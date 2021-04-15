@@ -1,0 +1,11 @@
+resources:
+  requests:
+    cpu: 100m
+    memory: 128Mi
+  limits:
+    cpu: 1000m
+    memory: 1Gi
+  java_opts:
+    - "-server -Xms128M -Xmx1G"
+    - "-XX:+UseContainerSupport"
+    - "-XX:+AlwaysActAsServerClassMachine"
