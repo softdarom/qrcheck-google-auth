@@ -1,0 +1,13 @@
+namespace: test
+
+deployment:
+  replicas: 1
+  restart_policy: Always
+  image_pull_policy: IfNotPresent
+
+  health:
+    progress_deadline_seconds: 100
+    initial_delay_seconds: 30
+    period_seconds: 10
+    timeout_seconds: 1
+    failure_threshold: 6
