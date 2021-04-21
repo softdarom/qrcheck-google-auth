@@ -4,8 +4,9 @@ resources:
     memory: 128Mi
   limits:
     cpu: 1000m
-    memory: 1Gi
+    memory: 512Mi
   java_opts:
-    - "-server -Xms128M -Xmx1G"
+    - "-server -Xms128M -Xmx512M"
     - "-XX:+UseContainerSupport"
     - "-XX:+AlwaysActAsServerClassMachine"
+    - "--illegal-access=deny"

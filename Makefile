@@ -6,6 +6,9 @@ start:
 	@echo "Gradle Build"
 	@./gradlew build
 
+	@echo "Switch context to Minikube"
+	@kubectl config use-context minikube
+
 	@echo "Docker Build"
 	@eval $$(minikube docker-env) && docker build -t ${PROJECT_NAME}/${APPLICATION_NAME}:${DOCKER_VERSION} .
 

@@ -18,6 +18,16 @@ server:
 management:
   server:
     port: {{ application.port.actuator }}
+  endpoint:
+    health:
+      show-details: always
+      probes:
+        enabled: true
+      group:
+        liveness:
+          include: livenessState
+        readiness:
+          include: readinessState
   endpoints:
     web:
       exposure:
