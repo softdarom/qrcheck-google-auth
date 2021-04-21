@@ -7,8 +7,8 @@ metadata:
     app: {{ application.name }}
     version: {{ lookup('env', 'DOCKER_VERSION') | default('unknown') }}
 spec:
-  minReadySeconds: {{ deployment.health.initial_delay_seconds }}
-  progressDeadlineSeconds: {{ deployment.health.progress_deadline_seconds }}
+  minReadySeconds: {{ deployment.health.initial_delay_seconds | default(30) }}
+  progressDeadlineSeconds: {{ deployment.health.progress_deadline_seconds | default(100) }}
   strategy:
     rollingUpdate:
       maxSurge: 1
@@ -63,20 +63,20 @@ spec:
 
           livenessProbe:
             httpGet:
-              path: /actuator/health
+              path: /actuator/health/liveness
               port: {{ application.port.actuator }}
-            initialDelaySeconds: {{ deployment.health.initial_delay_seconds }}
-            periodSeconds: {{ deployment.health.period_seconds }}
-            timeoutSeconds: {{ deployment.health.timeout_seconds }}
-            failureThreshold: {{ deployment.health.failure_threshold }}
+            initialDelaySeconds: {{ deployment.health.initial_delay_seconds | default(30) }}
+            periodSeconds: {{ deployment.health.period_seconds | default(5) }}
+            timeoutSeconds: {{ deployment.health.timeout_seconds | default(1) }}
+            failureThreshold: {{ deployment.health.failure_threshold | default(5) }}
           readinessProbe:
             httpGet:
-              path: /actuator/health
+              path: /actuator/health/readiness
               port: {{ application.port.actuator }}
-            initialDelaySeconds: {{ deployment.health.initial_delay_seconds }}
-            periodSeconds: {{ deployment.health.period_seconds }}
-            timeoutSeconds: {{ deployment.health.timeout_seconds }}
-            failureThreshold: {{ deployment.health.failure_threshold }}
+            initialDelaySeconds: {{ deployment.health.initial_delay_seconds | default(30) }}
+            periodSeconds: {{ deployment.health.period_seconds | default(5) }}
+            timeoutSeconds: {{ deployment.health.timeout_seconds | default(1) }}
+            failureThreshold: {{ deployment.health.failure_threshold | default(5) }}
 
       restartPolicy: {{ deployment.restart_policy | default('Always') }}
 

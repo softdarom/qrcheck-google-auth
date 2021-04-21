@@ -30,7 +30,7 @@ class OAuth2SecurityConfig extends WebSecurityConfigurerAdapter {
                 .httpBasic()
                 .disable()
                 .authorizeRequests()
-                .antMatchers("/oauth2/**", "/actuator/health", "/actuator/prometheus")
+                .antMatchers("/oauth2/**", "/actuator/**")
                 .permitAll()
                 .anyRequest()
                 .authenticated()
