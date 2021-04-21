@@ -1,0 +1,26 @@
+spring:
+  application:
+    name: {{ application.name }}
+  cloud:
+    kubernetes:
+      enabled: {{ spring.cloud.kubernetes.enabled | default('false') | lower }}
+      config:
+        enabled: {{ spring.cloud.kubernetes.config.false | default('false') | lower }}
+        name: {{ application.name }}
+        namespace: {{ namespace }}
+      reload:
+        enabled: {{ spring.cloud.kubernetes.reload.enabled | default('false') | lower }}
+        strategy: {{ spring.cloud.kubernetes.reload.strategy | default('refresh') | lower }}
+
+server:
+  port: {{ application.port.tcp }}
+
+management:
+  server:
+    port: {{ application.port.actuator }}
+  endpoints:
+    web:
+      exposure:
+        include:
+          - health
+          - prometheus

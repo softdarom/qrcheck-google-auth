@@ -4,8 +4,8 @@ spring:
       client:
         registration:
           google:
-            clientId: test
-            clientSecret: test
+            clientId: ${CLIENT_ID}
+            clientSecret: ${CLIENT_SECRET}
             redirectUri: "{baseUrl}/oauth2/callback/{registrationId}"
             scope:
               - email
@@ -16,7 +16,4 @@ spring:
 
 outbound:
   feign:
-    auth-handler: http://localhost:${outbound.test.auth-handler.port}/google
-  test:
-    auth-handler:
-      port: 8880
+    auth_handler: http://localhost:{{ outbound.feign.auth_handler.port }}/google
