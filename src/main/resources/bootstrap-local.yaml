@@ -4,6 +4,9 @@ spring:
   cloud:
     kubernetes:
       enabled: false
+    loadbalancer:
+      cache:
+        enabled: false
 
 server:
   port: ${APP_PORT}
