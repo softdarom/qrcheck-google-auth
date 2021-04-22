@@ -2,6 +2,9 @@ spring:
   application:
     name: {{ application.name }}
   cloud:
+    loadbalancer:
+      cache:
+        enabled: {{ spring.cloud.loadbalancer.cache.enabled | default('false') | lower }}
     kubernetes:
       enabled: {{ spring.cloud.kubernetes.enabled | default('false') | lower }}
       config:
