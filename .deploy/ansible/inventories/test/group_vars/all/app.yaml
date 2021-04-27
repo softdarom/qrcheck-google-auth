@@ -28,6 +28,13 @@ spring:
               6637616330653139310a633566663864373639323733316462326632646665336661343133663930
               6264
 
+logbook:
+  strategy: body-only-if-status-at-least
+  format:
+    style: http
+  exclude:
+    - /actuator/*
+
 outbound:
   feign:
     auth_handler:
