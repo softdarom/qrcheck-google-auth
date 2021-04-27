@@ -20,15 +20,15 @@ class GoogleTokenBuilderTest {
         var actual = new GoogleTokenBuilder(oAuth2UserRequest()).build();
         assertNotNull(actual);
 
-        assertNotNull(actual.getAccessToken());
-        assertNotNull(actual.getRefreshToken());
+        assertNotNull(actual.getAccessTokenDto());
+        assertNotNull(actual.getRefreshTokenDto());
 
-        assertFalse(actual.getAccessToken().getToken().isEmpty());
-        assertFalse(actual.getAccessToken().getScopes().isEmpty());
-        assertNotNull(actual.getAccessToken().getIssuedAt());
-        assertNotNull(actual.getAccessToken().getExpiresAt());
+        assertFalse(actual.getAccessTokenDto().getToken().isEmpty());
+        assertFalse(actual.getAccessTokenDto().getScopes().isEmpty());
+        assertNotNull(actual.getAccessTokenDto().getIssuedAt());
+        assertNotNull(actual.getAccessTokenDto().getExpiresAt());
 
-        assertFalse(actual.getRefreshToken().getToken().isEmpty());
+        assertFalse(actual.getRefreshTokenDto().getToken().isEmpty());
     }
 
 }

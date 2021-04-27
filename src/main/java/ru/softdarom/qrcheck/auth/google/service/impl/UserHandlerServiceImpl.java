@@ -6,6 +6,8 @@ import org.springframework.util.Assert;
 import ru.softdarom.qrcheck.auth.google.model.dto.GoogleTokenDto;
 import ru.softdarom.qrcheck.auth.google.model.dto.GoogleUserDto;
 import ru.softdarom.qrcheck.auth.google.model.request.GoogleCredentialRequest;
+import ru.softdarom.qrcheck.auth.google.model.request.OAuth2DeviceRequest;
+import ru.softdarom.qrcheck.auth.google.model.request.OAuth2UpdateDeviceRequest;
 import ru.softdarom.qrcheck.auth.google.service.AuthHandlerExternalService;
 import ru.softdarom.qrcheck.auth.google.service.UserHandlerService;
 
@@ -20,16 +22,28 @@ public class UserHandlerServiceImpl implements UserHandlerService {
     }
 
     @Override
-    public void saveOrUpdate(GoogleUserDto userDto, GoogleTokenDto tokenDto) {
+    public void saveUser(GoogleUserDto userDto, GoogleTokenDto tokenDto) {
         Assert.notNull(userDto, "The 'userDto' must not null!");
         Assert.notNull(tokenDto, "The 'tokenDto' must not null!");
-        authHandlerExternalService.save(new GoogleCredentialRequest(tokenDto, userDto));
+        authHandlerExternalService.saveUser(new GoogleCredentialRequest(tokenDto, userDto));
     }
 
     @Override
-    public void exist(String email) {
+    public void saveUserDevice(OAuth2DeviceRequest request) {
+        Assert.notNull(request, "The 'request' must not null!");
+        authHandlerExternalService.saveDevice(request);
+    }
+
+    @Override
+    public void updateUserDevice(OAuth2UpdateDeviceRequest request) {
+        Assert.notNull(request, "The 'request' must not null!");
+        authHandlerExternalService.updateDevice(request);
+    }
+
+    @Override
+    public Long exist(String email) {
         Assert.notNull(email, "The 'email' must not be null!");
         Assert.isTrue(!email.isEmpty(), "The 'email' must not be empty!");
-        authHandlerExternalService.exist(email);
+        return authHandlerExternalService.getUser(email).getId();
     }
 }

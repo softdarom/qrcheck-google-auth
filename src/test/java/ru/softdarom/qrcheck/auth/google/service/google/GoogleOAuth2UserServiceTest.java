@@ -11,8 +11,6 @@ import org.springframework.core.ParameterizedTypeReference;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.RequestEntity;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.oauth2.client.userinfo.DefaultOAuth2UserService;
-import org.springframework.security.oauth2.client.userinfo.OAuth2UserRequest;
 import org.springframework.test.util.ReflectionTestUtils;
 import org.springframework.web.client.RestOperations;
 import ru.softdarom.qrcheck.auth.google.model.dto.GoogleTokenDto;
@@ -58,11 +56,11 @@ class GoogleOAuth2UserServiceTest {
     @Test
     @DisplayName("loadUser(): returns OAuth2User")
     void successfulLoadUser() {
-        doNothing().when(userHandlerServiceMock).saveOrUpdate(any(GoogleUserDto.class), any(GoogleTokenDto.class));
+        doNothing().when(userHandlerServiceMock).saveUser(any(GoogleUserDto.class), any(GoogleTokenDto.class));
         when(restOperationsMock.exchange(any(RequestEntity.class), any(ParameterizedTypeReference.class)))
                 .thenReturn(new ResponseEntity<>(Map.of("google", generateString()), HttpStatus.OK));
         assertDoesNotThrow(() -> service.loadUser(oAuth2UserRequest()));
-        verify(userHandlerServiceMock).saveOrUpdate(any(GoogleUserDto.class), any(GoogleTokenDto.class));
+        verify(userHandlerServiceMock).saveUser(any(GoogleUserDto.class), any(GoogleTokenDto.class));
     }
 
     //  -----------------------   fail tests   -------------------------

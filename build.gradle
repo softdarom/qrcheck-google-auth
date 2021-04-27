@@ -23,6 +23,7 @@ configurations {
 }
 
 repositories {
+    mavenLocal()
     mavenCentral()
 }
 
@@ -31,6 +32,7 @@ ext {
     set("javaxVersion", "2.0.1.Final")
     set("feignVersion", "11.1")
     set("micrometerVersion", "1.5.4")
+    set("logbookVersion", "2.6.2")
     set("groovyVersion", "3.0.7")
     set("junitVersion", "5.4.2")
     set("wiremockVersion", "2.27.2")
@@ -53,6 +55,7 @@ dependencies {
 
     api "javax.validation:validation-api:${javaxVersion}"
     api "io.micrometer:micrometer-registry-prometheus:${micrometerVersion}"
+    api "org.zalando:logbook-spring-boot-starter:${logbookVersion}"
 
     runtimeOnly "org.codehaus.groovy:groovy-all:${groovyVersion}"
 

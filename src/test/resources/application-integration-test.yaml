@@ -1,4 +1,4 @@
-spring:
+\spring:
   security:
     oauth2:
       client:
@@ -14,9 +14,17 @@ spring:
     template:
       check-template-location: false
 
+logbook:
+  strategy: body-only-if-status-at-least
+  format:
+    style: http
+  logger:
+    name: GOOGLE-AUTH-REST
+  exclude:
+    - /actuator/*
+
 outbound:
   feign:
-    auth-handler: http://localhost:${outbound.test.auth-handler.port}/google
-  test:
     auth-handler:
-      port: 8880
+      host: http://localhost:${outbound.feign.auth-handler.port}/google
+      port: 8000
