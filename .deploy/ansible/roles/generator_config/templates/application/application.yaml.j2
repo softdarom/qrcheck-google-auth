@@ -14,6 +14,14 @@ spring:
     template:
       check-template-location: false
 
+logbook:
+  strategy: {{ logbook.strategy }}
+  format:
+    style: {{ logbook.format.style | default('http') }}
+  logger:
+    name: GOOGLE-AUTH-REST
+  exclude: {{ logbook.exclude | join(', ') }}
+
 outbound:
   feign:
     auth_handler:
