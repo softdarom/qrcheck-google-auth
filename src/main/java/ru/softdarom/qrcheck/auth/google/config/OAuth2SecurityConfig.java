@@ -3,6 +3,7 @@ package ru.softdarom.qrcheck.auth.google.config;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
+import org.springframework.security.config.annotation.web.builders.WebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.oauth2.client.userinfo.DefaultOAuth2UserService;
 import org.springframework.security.oauth2.client.web.OAuth2AuthorizationRequestResolver;
@@ -30,7 +31,7 @@ class OAuth2SecurityConfig extends WebSecurityConfigurerAdapter {
                 .httpBasic()
                 .disable()
                 .authorizeRequests()
-                .antMatchers("/oauth2/**", "/actuator/**")
+                .antMatchers("/oauth2/**")
                 .permitAll()
                 .anyRequest()
                 .authenticated()
@@ -44,5 +45,16 @@ class OAuth2SecurityConfig extends WebSecurityConfigurerAdapter {
                 .and()
                 .userInfoEndpoint()
                 .userService(googleOAuth2UserService);
+    }
+
+    @Override
+    public void configure(WebSecurity web) {
+        web.ignoring()
+                .antMatchers(
+                        "/google/users/**",
+                        "/google/devices/**",
+                        "/actuator/health/**",
+                        "/actuator/prometheus/**"
+                );
     }
 }

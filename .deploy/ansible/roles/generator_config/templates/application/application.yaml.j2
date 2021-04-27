@@ -16,4 +16,5 @@ spring:
 
 outbound:
   feign:
-    auth_handler: http://localhost:{{ outbound.feign.auth_handler.port }}/google
+    auth_handler:
+      host: http://localhost:{{ outbound.feign.auth_handler.port }}/google

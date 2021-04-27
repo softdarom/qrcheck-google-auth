@@ -8,23 +8,22 @@ import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.util.ReflectionTestUtils;
-import ru.softdarom.qrcheck.auth.google.builder.GoogleTokenBuilder;
-import ru.softdarom.qrcheck.auth.google.builder.GoogleUserBuilder;
 import ru.softdarom.qrcheck.auth.google.model.request.GoogleCredentialRequest;
+import ru.softdarom.qrcheck.auth.google.model.request.OAuth2DeviceRequest;
+import ru.softdarom.qrcheck.auth.google.model.request.OAuth2UpdateDeviceRequest;
 import ru.softdarom.qrcheck.auth.google.service.impl.UserHandlerServiceImpl;
 import ru.softdarom.qrcheck.auth.google.test.tag.SpringIntegrationTest;
 
-import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
-import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.*;
-import static ru.softdarom.qrcheck.auth.google.test.generator.CommonGenerator.generateString;
-import static ru.softdarom.qrcheck.auth.google.test.generator.OAuthGenerator.oAuth2User;
-import static ru.softdarom.qrcheck.auth.google.test.generator.OAuthGenerator.oAuth2UserRequest;
+import static ru.softdarom.qrcheck.auth.google.test.generator.OAuthGenerator.*;
 
 @SpringIntegrationTest
 @DisplayName("UserHandlerService Spring Integration Test")
 class UserHandlerServiceTest {
+
+    private static final String TEST_EMAIL = "test@email.ru";
 
     @Mock
     private AuthHandlerExternalService authHandlerExternalServiceMock;
@@ -46,48 +45,80 @@ class UserHandlerServiceTest {
     //  -----------------------   successful tests   -------------------------
 
     @Test
-    @DisplayName("saveOrUpdate(): doesn't throw an exception when OK")
-    void successfulSaveOrUpdate() {
-        doNothing().when(authHandlerExternalServiceMock).save(any(GoogleCredentialRequest.class));
-        assertDoesNotThrow(() -> service.saveOrUpdate(new GoogleUserBuilder(oAuth2User()).build(), new GoogleTokenBuilder(oAuth2UserRequest()).build()));
-        verify(authHandlerExternalServiceMock).save(any(GoogleCredentialRequest.class));
+    @DisplayName("saveUser(): doesn't throw an exception when OK")
+    void successfulSaveUser() {
+        doNothing().when(authHandlerExternalServiceMock).saveUser(any(GoogleCredentialRequest.class));
+        assertDoesNotThrow(() -> service.saveUser(googleUserDto(), googleTokenDto()));
+        verify(authHandlerExternalServiceMock).saveUser(any(GoogleCredentialRequest.class));
     }
 
     @Test
-    @DisplayName("exist(): doesn't throw an exception when an user exists")
+    @DisplayName("saveUserDevice(): doesn't throw an exception when OK")
+    void successfulSaveUserDevice() {
+        doNothing().when(authHandlerExternalServiceMock).saveDevice(any(OAuth2DeviceRequest.class));
+        assertDoesNotThrow(() -> service.saveUserDevice(oAuth2DeviceRequest()));
+        verify(authHandlerExternalServiceMock).saveDevice(any(OAuth2DeviceRequest.class));
+    }
+
+    @Test
+    @DisplayName("updateUserDevice(): doesn't throw an exception when OK")
+    void successfulUpdateUserDevice() {
+        doNothing().when(authHandlerExternalServiceMock).updateDevice(any(OAuth2UpdateDeviceRequest.class));
+        assertDoesNotThrow(() -> service.updateUserDevice(oAuth2UpdateDeviceRequest()));
+        verify(authHandlerExternalServiceMock).updateDevice(any(OAuth2UpdateDeviceRequest.class));
+    }
+
+    @Test
+    @DisplayName("exist(): returns user id when an user exists")
     void successfulExist() {
-        doNothing().when(authHandlerExternalServiceMock).exist(anyString());
-        assertDoesNotThrow(() -> service.exist(generateString()));
-        verify(authHandlerExternalServiceMock).exist(anyString());
+        var expected = googleUserResponse();
+        when(authHandlerExternalServiceMock.getUser(TEST_EMAIL)).thenReturn(expected);
+        var actual = assertDoesNotThrow(() -> service.exist(TEST_EMAIL));
+        verify(authHandlerExternalServiceMock).getUser(TEST_EMAIL);
+        assertEquals(expected.getId(), actual);
     }
 
     //  -----------------------   fail tests   -------------------------
 
     @Test
-    @DisplayName("saveOrUpdate(): throws IllegalArgumentException when an userDto is null")
-    void failSaveOrUpdateNullUserDto() {
-        assertThrows(IllegalArgumentException.class, () -> service.saveOrUpdate(null, new GoogleTokenBuilder(oAuth2UserRequest()).build()));
-        verify(authHandlerExternalServiceMock, never()).save(any(GoogleCredentialRequest.class));
+    @DisplayName("saveUser(): throws IllegalArgumentException when an userDto is null")
+    void failSaveUserNullUserDto() {
+        assertThrows(IllegalArgumentException.class, () -> service.saveUser(null, googleTokenDto()));
+        verify(authHandlerExternalServiceMock, never()).saveUser(any(GoogleCredentialRequest.class));
     }
 
     @Test
-    @DisplayName("saveOrUpdate(): throws IllegalArgumentException when an tokenDto is null")
-    void failSaveOrUpdateNullTokenDto() {
-        assertThrows(IllegalArgumentException.class, () -> service.saveOrUpdate(new GoogleUserBuilder(oAuth2User()).build(), null));
-        verify(authHandlerExternalServiceMock, never()).save(any(GoogleCredentialRequest.class));
+    @DisplayName("saveDevice(): throws IllegalArgumentException when a tokenDto is null")
+    void failSaveUserNullTokenDto() {
+        assertThrows(IllegalArgumentException.class, () -> service.saveUser(googleUserDto(), null));
+        verify(authHandlerExternalServiceMock, never()).saveUser(any(GoogleCredentialRequest.class));
+    }
+
+    @Test
+    @DisplayName("saveUser(): throws IllegalArgumentException when a request is null")
+    void failSaveDeviceNullRequest() {
+        assertThrows(IllegalArgumentException.class, () -> service.saveUserDevice(null));
+        verify(authHandlerExternalServiceMock, never()).saveDevice(any(OAuth2DeviceRequest.class));
+    }
+
+    @Test
+    @DisplayName("updateUserDevice(): throws IllegalArgumentException when a request is null")
+    void failUpdateUserDeviceNullTokenDto() {
+        assertThrows(IllegalArgumentException.class, () -> service.updateUserDevice(null));
+        verify(authHandlerExternalServiceMock, never()).updateDevice(any(OAuth2UpdateDeviceRequest.class));
     }
 
     @Test
     @DisplayName("exist(): throws IllegalArgumentException when an email is null")
     void failExistEmailNull() {
         assertThrows(IllegalArgumentException.class, () -> service.exist(null));
-        verify(authHandlerExternalServiceMock, never()).exist(anyString());
+        verify(authHandlerExternalServiceMock, never()).getUser(anyString());
     }
 
     @Test
     @DisplayName("exist(): throws IllegalArgumentException when an email is empty")
     void failExistEmailEmpty() {
         assertThrows(IllegalArgumentException.class, () -> service.exist(""));
-        verify(authHandlerExternalServiceMock, never()).exist(anyString());
+        verify(authHandlerExternalServiceMock, never()).getUser(anyString());
     }
 }

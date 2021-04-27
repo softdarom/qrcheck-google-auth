@@ -24,7 +24,7 @@ public class GoogleOAuth2UserService extends DefaultOAuth2UserService {
     @Override
     public OAuth2User loadUser(OAuth2UserRequest oAuth2UserRequest) {
         var oAuth2User = super.loadUser(oAuth2UserRequest);
-        userHandlerService.saveOrUpdate(getGoogleOAuth2User(oAuth2User), getGoogleToken(oAuth2UserRequest));
+        userHandlerService.saveUser(getGoogleOAuth2User(oAuth2User), getGoogleToken(oAuth2UserRequest));
         return oAuth2User;
     }
 

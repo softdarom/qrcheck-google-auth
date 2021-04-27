@@ -14,19 +14,20 @@ import ru.softdarom.qrcheck.auth.google.test.tag.SpringIntegrationTest;
 
 import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
 import static org.mockito.Mockito.*;
+import static ru.softdarom.qrcheck.auth.google.test.generator.CommonGenerator.generateLong;
 
 @SpringIntegrationTest
-@DisplayName("AuthenticationController Spring Integration Test")
-class AuthenticationControllerTest extends AbstractControllerTest {
+@DisplayName("UserController Spring Integration Test")
+class UserControllerTest extends AbstractControllerTest {
 
-    private static final String BASE_URL = "/oauth2";
-    private static final String URI_EXIST_USER = BASE_URL + "/users/test@email.ru/exist";
+    private static final String TEST_EMAIL = "test@email.ru";
+    private static final String URI_EXIST_USER = "/google/users?email=" + TEST_EMAIL;
 
     @Mock
     private UserHandlerService userHandlerServiceMock;
 
     @Autowired
-    private AuthenticationController controller;
+    private UserController controller;
 
     @BeforeEach
     void setUp() {
@@ -41,40 +42,39 @@ class AuthenticationControllerTest extends AbstractControllerTest {
     //  -----------------------   successful tests   -------------------------
 
     @Test
-    @DisplayName("exist(): returns 200 when an user found")
-    void successfulExist() {
-        doNothing().when(userHandlerServiceMock).exist(anyString());
-        var actual = assertDoesNotThrow(() -> get(Void.class, URI_EXIST_USER));
-        assertCall().accept(actual, HttpStatus.OK);
+    @DisplayName("existUser(): returns 200 and user id when an user found")
+    void successfulExistUser() {
+        when(userHandlerServiceMock.exist(TEST_EMAIL)).thenReturn(generateLong());
+        var actual = assertDoesNotThrow(() -> get(Long.class, URI_EXIST_USER));
+        assertCallWithBody().accept(actual, HttpStatus.OK);
         verify(userHandlerServiceMock).exist(anyString());
     }
 
     //  -----------------------   fail tests   -------------------------
 
-
     @Test
-    @DisplayName("exist(): returns 404 when an user not found")
-    void failExistNotFound() {
-        doThrow(FeignException.NotFound.class).when(userHandlerServiceMock).exist(anyString());
-        var actual = assertDoesNotThrow(() -> get(Void.class, URI_EXIST_USER));
+    @DisplayName("existUser(): returns 404 when an user not found")
+    void failExistUserNotFound() {
+        when(userHandlerServiceMock.exist(anyString())).thenThrow(FeignException.NotFound.class);
+        var actual = assertDoesNotThrow(() -> get(Long.class, URI_EXIST_USER));
         assertCall().accept(actual, HttpStatus.NOT_FOUND);
         verify(userHandlerServiceMock).exist(anyString());
     }
 
     @Test
-    @DisplayName("exist(): returns 500 when an unknown exception from an external service")
-    void failExistExternalUnknownException() {
-        doThrow(FeignException.InternalServerError.class).when(userHandlerServiceMock).exist(anyString());
-        var actual = assertDoesNotThrow(() -> get(Void.class, URI_EXIST_USER));
+    @DisplayName("existUser(): returns 500 when an unknown exception from an external service")
+    void failExistUserExternalUnknownException() {
+        when(userHandlerServiceMock.exist(anyString())).thenThrow(FeignException.InternalServerError.class);
+        var actual = assertDoesNotThrow(() -> get(Long.class, URI_EXIST_USER));
         assertCall().accept(actual, HttpStatus.INTERNAL_SERVER_ERROR);
         verify(userHandlerServiceMock).exist(anyString());
     }
 
     @Test
-    @DisplayName("exist(): returns 500 when an unknown exception")
-    void failExistUnknownException() {
-        doThrow(RuntimeException.class).when(userHandlerServiceMock).exist(anyString());
-        var actual = assertDoesNotThrow(() -> get(Void.class, URI_EXIST_USER));
+    @DisplayName("existUser(): returns 500 when an unknown exception")
+    void failExistUserUnknownException() {
+        when(userHandlerServiceMock.exist(anyString())).thenThrow(RuntimeException.class);
+        var actual = assertDoesNotThrow(() -> get(Long.class, URI_EXIST_USER));
         assertCall().accept(actual, HttpStatus.INTERNAL_SERVER_ERROR);
         verify(userHandlerServiceMock).exist(anyString());
     }

@@ -4,7 +4,8 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import ru.softdarom.qrcheck.auth.google.test.tag.UnitTest;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static ru.softdarom.qrcheck.auth.google.test.generator.OAuthGenerator.oAuth2User;
 
 @UnitTest
