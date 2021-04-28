@@ -8,7 +8,7 @@ metadata:
     version: {{ lookup('env', 'DOCKER_VERSION') | default('unknown') }}
 spec:
   sessionAffinity: ClientIP
-  type: NodePort
+  type: ClusterIP
   ports:
     - name: tcp
       port: 8000
