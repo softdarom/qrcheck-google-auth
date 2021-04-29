@@ -25,5 +25,5 @@ logbook:
 
 outbound:
   feign:
-    auth-handler:
-      host: "http://localhost:${OUTBOUND_FEIGN_AUTH_HANDLER_PORT}/google"
+    user-handler:
+      host: "http://localhost:${OUTBOUND_FEIGN_USER_HANDLER_PORT}/google"

@@ -17,8 +17,8 @@ import static org.junit.jupiter.api.Assertions.*;
 import static ru.softdarom.qrcheck.auth.google.test.generator.OAuthGenerator.*;
 
 @SpringIntegrationTest
-@DisplayName("AuthHandlerExternalService Spring Integration Test")
-class AuthHandlerExternalServiceTest {
+@DisplayName("UserHandlerExternalService Spring Integration Test")
+class UserHandlerExternalServiceTest {
 
     private static final String TEST_EMAIL = "test%40email.ru";
 
@@ -34,7 +34,7 @@ class AuthHandlerExternalServiceTest {
     private ObjectMapper objectMapper;
 
     @Autowired
-    private AuthHandlerExternalService service;
+    private UserHandlerExternalService service;
 
     @AfterEach
     void tearDown() {
