@@ -39,5 +39,5 @@ outbound:
   feign:
     user_handler:
       schema: http
-      host: localhost
-      port: 8001
+      host: user-handler
+      port: 8000
