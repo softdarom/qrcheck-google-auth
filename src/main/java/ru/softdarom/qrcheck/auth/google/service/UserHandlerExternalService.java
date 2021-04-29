@@ -7,8 +7,8 @@ import ru.softdarom.qrcheck.auth.google.model.request.OAuth2DeviceRequest;
 import ru.softdarom.qrcheck.auth.google.model.request.OAuth2UpdateDeviceRequest;
 import ru.softdarom.qrcheck.auth.google.model.response.GoogleUserResponse;
 
-@FeignClient(name = "auth-handler", url = "${outbound.feign.auth-handler.host}")
-public interface AuthHandlerExternalService {
+@FeignClient(name = "user-handler", url = "${outbound.feign.user-handler.host}")
+public interface UserHandlerExternalService {
 
     @PostMapping("/users")
     void saveUser(GoogleCredentialRequest request);

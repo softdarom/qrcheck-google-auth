@@ -4,8 +4,12 @@ work_dir: "/opt/google-auth"
 application:
   name: google-auth
   port:
-    tcp: 8000
-    actuator: 7000
+    tcp:
+      name: tcp
+      number: 8000
+    actuator:
+      name: actuator
+      number: 7000
 
   path:
     config: "{{ work_dir }}/config"

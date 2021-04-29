@@ -40,10 +40,10 @@ spec:
                 name: {{ application.name }}
 
           ports:
-            - name: tcp
-              containerPort: {{ application.port.tcp }}
-            - name: actuator
-              containerPort: {{ application.port.actuator }}
+            - name: {{ application.port.tcp.name }}
+              containerPort: {{ application.port.tcp.number }}
+            - name: {{ application.port.actuator.name }}
+              containerPort: {{ application.port.actuator.number }}
 
           volumeMounts:
             - name: {{ application.name }}-config
@@ -64,7 +64,7 @@ spec:
           livenessProbe:
             httpGet:
               path: /actuator/health/liveness
-              port: {{ application.port.actuator }}
+              port: {{ application.port.actuator.number }}
             initialDelaySeconds: {{ deployment.health.initial_delay_seconds | default(30) }}
             periodSeconds: {{ deployment.health.period_seconds | default(5) }}
             timeoutSeconds: {{ deployment.health.timeout_seconds | default(1) }}
@@ -72,7 +72,7 @@ spec:
           readinessProbe:
             httpGet:
               path: /actuator/health/readiness
-              port: {{ application.port.actuator }}
+              port: {{ application.port.actuator.number }}
             initialDelaySeconds: {{ deployment.health.initial_delay_seconds | default(30) }}
             periodSeconds: {{ deployment.health.period_seconds | default(5) }}
             timeoutSeconds: {{ deployment.health.timeout_seconds | default(1) }}

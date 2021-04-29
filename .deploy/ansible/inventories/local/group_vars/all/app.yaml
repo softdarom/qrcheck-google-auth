@@ -39,5 +39,7 @@ logbook:
 
 outbound:
   feign:
-    auth_handler:
+    user_handler:
+      schema: http
+      host: localhost
       port: 8001
