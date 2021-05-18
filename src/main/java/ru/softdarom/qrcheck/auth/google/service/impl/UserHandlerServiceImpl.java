@@ -40,9 +40,9 @@ public class UserHandlerServiceImpl implements UserHandlerService {
 
     @Override
     public void updateUserDevice(OAuth2UpdateDeviceRequest request) {
+        Assert.notNull(request, "The 'request' must not null!");
         LOGGER.info("A user's (id: {}) device (old id: {}, new id: {}) will be saved.",
                 request.getUserId(), request.getOldDeviceDto().getDeviceId(), request.getNewDeviceDto().getDeviceId());
-        Assert.notNull(request, "The 'request' must not null!");
         userHandlerExternalService.updateDevice(request);
     }
 
