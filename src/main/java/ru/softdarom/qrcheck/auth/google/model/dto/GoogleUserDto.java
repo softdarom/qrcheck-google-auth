@@ -2,12 +2,11 @@ package ru.softdarom.qrcheck.auth.google.model.dto;
 
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
-import lombok.ToString;
 import org.springframework.security.oauth2.core.user.OAuth2User;
+import ru.softdarom.qrcheck.auth.google.util.JsonHelper;
 
 @Getter
 @EqualsAndHashCode
-@ToString
 public class GoogleUserDto {
 
     private final String firstName;
@@ -21,5 +20,10 @@ public class GoogleUserDto {
         this.secondName = (String) attributes.get("family_name");
         this.avatar = (String) attributes.get("picture");
         this.email = (String) attributes.get("email");
+    }
+
+    @Override
+    public String toString() {
+        return JsonHelper.asJson(this);
     }
 }
