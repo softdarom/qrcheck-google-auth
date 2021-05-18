@@ -2,6 +2,7 @@ package ru.softdarom.qrcheck.auth.google.model.dto;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.Data;
+import lombok.Generated;
 import org.springframework.security.oauth2.core.OAuth2AccessToken;
 import ru.softdarom.qrcheck.auth.google.util.JsonHelper;
 
@@ -12,6 +13,7 @@ import java.time.LocalDateTime;
 import java.time.ZoneOffset;
 import java.util.Set;
 
+@Generated
 @Data
 public class GoogleTokenDto {
 

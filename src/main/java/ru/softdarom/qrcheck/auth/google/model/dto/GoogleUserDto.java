@@ -1,10 +1,12 @@
 package ru.softdarom.qrcheck.auth.google.model.dto;
 
 import lombok.EqualsAndHashCode;
+import lombok.Generated;
 import lombok.Getter;
 import org.springframework.security.oauth2.core.user.OAuth2User;
 import ru.softdarom.qrcheck.auth.google.util.JsonHelper;
 
+@Generated
 @Getter
 @EqualsAndHashCode
 public class GoogleUserDto {

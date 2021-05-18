@@ -6,7 +6,6 @@ plugins {
 }
 
 group = "ru.softdarom.qrcheck"
-sourceCompatibility = "11"
 
 bootJar {
     archiveFileName = "google-auth.jar"
@@ -76,9 +75,6 @@ dependencies {
 
 jacocoTestReport {
     reports {
-        html {
-            enabled false
-        }
         xml {
             enabled true
             destination file("${buildDir}/jacoco/coverage.xml")

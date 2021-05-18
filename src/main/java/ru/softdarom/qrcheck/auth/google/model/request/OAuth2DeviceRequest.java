@@ -2,10 +2,12 @@ package ru.softdarom.qrcheck.auth.google.model.request;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.Data;
+import lombok.Generated;
 import ru.softdarom.qrcheck.auth.google.util.JsonHelper;
 
 import javax.validation.constraints.NotEmpty;
 
+@Generated
 @Data
 public class OAuth2DeviceRequest {
 
