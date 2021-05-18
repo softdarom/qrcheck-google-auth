@@ -16,11 +16,11 @@ spring:
         strategy: {{ spring.cloud.kubernetes.reload.strategy | default('refresh') | lower }}
 
 server:
-  port: {{ application.port.tcp }}
+  port: {{ application.port.tcp.number }}
 
 management:
   server:
-    port: {{ application.port.actuator }}
+    port: {{ application.port.actuator.number }}
   endpoint:
     health:
       show-details: always
