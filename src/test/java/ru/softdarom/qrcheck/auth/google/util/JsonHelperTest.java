@@ -1,6 +1,5 @@
 package ru.softdarom.qrcheck.auth.google.util;
 
-import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.SerializationFeature;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
@@ -10,7 +9,8 @@ import ru.softdarom.qrcheck.auth.google.test.tag.UnitTest;
 
 import java.time.LocalDateTime;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
 
 @UnitTest
 @DisplayName("JsonHelper Unit Test")
@@ -36,11 +36,11 @@ class JsonHelperTest {
         assertEquals(expected, actual);
     }
 
-    //  -----------------------   fail tests   -------------------------
+    //  -----------------------   failure tests   -------------------------
 
     @Test
     @DisplayName("asJson(): returns 'unknown' when JsonProcessingException")
-    void failAsJson() {
+    void failureAsJson() {
         var expected = "unknown";
         JsonHelper.getMapper().configure(SerializationFeature.FAIL_ON_EMPTY_BEANS, true);
         var actual = JsonHelper.asJson(new EmptyObject());

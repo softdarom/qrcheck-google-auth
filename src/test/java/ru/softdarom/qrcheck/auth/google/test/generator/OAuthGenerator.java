@@ -1,20 +1,25 @@
 package ru.softdarom.qrcheck.auth.google.test.generator;
 
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
+import org.springframework.security.oauth2.client.OAuth2AuthorizedClient;
+import org.springframework.security.oauth2.client.authentication.OAuth2AuthenticationToken;
 import org.springframework.security.oauth2.client.registration.ClientRegistration;
-import org.springframework.security.oauth2.client.userinfo.OAuth2UserRequest;
 import org.springframework.security.oauth2.core.AuthorizationGrantType;
 import org.springframework.security.oauth2.core.OAuth2AccessToken;
+import org.springframework.security.oauth2.core.OAuth2RefreshToken;
 import org.springframework.security.oauth2.core.user.DefaultOAuth2User;
 import org.springframework.security.oauth2.core.user.OAuth2User;
-import ru.softdarom.qrcheck.auth.google.builder.GoogleTokenBuilder;
-import ru.softdarom.qrcheck.auth.google.builder.GoogleUserBuilder;
-import ru.softdarom.qrcheck.auth.google.model.dto.GoogleTokenDto;
-import ru.softdarom.qrcheck.auth.google.model.dto.GoogleUserDto;
-import ru.softdarom.qrcheck.auth.google.model.request.GoogleCredentialRequest;
-import ru.softdarom.qrcheck.auth.google.model.request.OAuth2DeviceRequest;
-import ru.softdarom.qrcheck.auth.google.model.request.OAuth2UpdateDeviceRequest;
-import ru.softdarom.qrcheck.auth.google.model.response.GoogleUserResponse;
+import ru.softdarom.qrcheck.auth.google.builder.TokenBuilder;
+import ru.softdarom.qrcheck.auth.google.builder.UserBuilder;
+import ru.softdarom.qrcheck.auth.google.model.dto.TokenDto;
+import ru.softdarom.qrcheck.auth.google.model.dto.UserDto;
+import ru.softdarom.qrcheck.auth.google.model.dto.request.AuthHandlerTokenUserInfoRequest;
+import ru.softdarom.qrcheck.auth.google.model.dto.request.GoogleRefreshTokenRequest;
+import ru.softdarom.qrcheck.auth.google.model.dto.response.AuthHandlerUserResponse;
+import ru.softdarom.qrcheck.auth.google.model.dto.response.GoogleAccessTokenResponse;
+import ru.softdarom.qrcheck.auth.google.model.dto.response.GoogleTokenInfoResponse;
 
 import java.time.LocalDateTime;
 import java.time.ZoneOffset;
@@ -26,45 +31,60 @@ import static ru.softdarom.qrcheck.auth.google.test.helper.UriHelper.generateUri
 
 public final class OAuthGenerator {
 
-    public static OAuth2UpdateDeviceRequest oAuth2UpdateDeviceRequest() {
-        var request = new OAuth2UpdateDeviceRequest();
-        request.setUserId(generateString());
-        request.setOldDeviceDto(deviceInfoDto());
-        request.setNewDeviceDto(deviceInfoDto());
-        return request;
-    }
-
-    public static OAuth2UpdateDeviceRequest.DeviceInfoDto deviceInfoDto() {
-        var dto = new OAuth2UpdateDeviceRequest.DeviceInfoDto();
-        dto.setDeviceId(generateString());
-        dto.setDevicePushToken(generateString());
+    public static UserDto userDto() {
+        var dto = new UserBuilder(oAuth2User()).build();
+        dto.setId(generateLong());
         return dto;
     }
 
-    public static GoogleUserResponse googleUserResponse() {
-        var response = new GoogleUserResponse();
-        response.setId(generateLong());
+    public static TokenDto tokenDto() {
+        return new TokenBuilder(oAuth2AuthorizedClient()).build();
+    }
+
+    public static AuthHandlerTokenUserInfoRequest authHandlerTokenUserInfoRequest() {
+        return new AuthHandlerTokenUserInfoRequest(userDto(), tokenDto());
+    }
+
+    public static GoogleRefreshTokenRequest googleRefreshTokenRequest() {
+        return new GoogleRefreshTokenRequest(generateString(), generateString(), generateString());
+    }
+
+    public static AuthHandlerUserResponse authHandlerUserResponse() {
+        return new AuthHandlerUserResponse(userDto(), tokenDto());
+    }
+
+    public static GoogleTokenInfoResponse googleTokenInfoResponse() {
+        var response = new GoogleTokenInfoResponse();
+        response.setAud(generateString());
+        response.setAud(generateString());
+        response.setSub(generateString());
+        response.setScope(generateString());
+        response.setEmail(generateString());
         return response;
     }
 
-    public static OAuth2DeviceRequest oAuth2DeviceRequest() {
-        var request = new OAuth2DeviceRequest();
-        request.setUserId(generateString());
-        request.setDeviceId(generateString());
-        request.setDevicePushToken(generateString());
-        return request;
+    public static GoogleAccessTokenResponse googleAccessTokenResponse() {
+        var response = new GoogleAccessTokenResponse();
+        response.setAccessToken(generateString());
+        return response;
     }
 
-    public static GoogleCredentialRequest googleCredentialRequest() {
-        return new GoogleCredentialRequest(googleTokenDto(), googleUserDto());
+    public static OAuth2AuthorizedClient oAuth2AuthorizedClient() {
+        return new OAuth2AuthorizedClient(
+                clientRegistration(), generateString(),
+                oAuth2AccessToken(), oAuth2RefreshToken()
+        );
     }
 
-    public static GoogleUserDto googleUserDto() {
-        return new GoogleUserBuilder(oAuth2User()).build();
-    }
-
-    public static GoogleTokenDto googleTokenDto() {
-        return new GoogleTokenBuilder(oAuth2UserRequest()).build();
+    public static ClientRegistration clientRegistration() {
+        return ClientRegistration
+                .withRegistrationId("google")
+                .userInfoUri(generateUri(generateString(), generateInteger(80, 8000)))
+                .userNameAttributeName("google")
+                .authorizationGrantType(AuthorizationGrantType.CLIENT_CREDENTIALS)
+                .clientId(generateString())
+                .tokenUri(generateString())
+                .build();
     }
 
     public static OAuth2AccessToken oAuth2AccessToken() {
@@ -77,26 +97,15 @@ public final class OAuthGenerator {
         );
     }
 
-    public static OAuth2UserRequest oAuth2UserRequest() {
-        return new OAuth2UserRequest(
-                ClientRegistration
-                        .withRegistrationId("google")
-                        .userInfoUri(generateUri(generateString(), generateInteger(80, 8000)))
-                        .userNameAttributeName("google")
-                        .authorizationGrantType(AuthorizationGrantType.CLIENT_CREDENTIALS)
-                        .clientId(generateString())
-                        .tokenUri(generateString())
-                        .build(),
-                oAuth2AccessToken(),
-                Map.of("id_token", generateString())
+    public static OAuth2RefreshToken oAuth2RefreshToken() {
+        return new OAuth2RefreshToken(
+                generateString(), LocalDateTime.now().toInstant(ZoneOffset.UTC)
         );
     }
 
     public static OAuth2User oAuth2User() {
         return new DefaultOAuth2User(
-                Set.of(
-                        new SimpleGrantedAuthority("ROLE_USER")
-                ),
+                authorities(),
                 Map.of(
                         "sub", generateString(),
                         "given_name", generateString(),
@@ -105,6 +114,18 @@ public final class OAuthGenerator {
                         "email", generateString()
                 ),
                 "sub"
+        );
+    }
+
+    public static Authentication authentication() {
+        return new OAuth2AuthenticationToken(oAuth2User(), authorities(), generateString());
+    }
+
+    public static Set<? extends GrantedAuthority> authorities() {
+        return Set.of(
+                new SimpleGrantedAuthority("ROLE_USER"),
+                new SimpleGrantedAuthority("SCOPE_https://www.googleapis.com/auth/userinfo.email"),
+                new SimpleGrantedAuthority("SCOPE_https://www.googleapis.com/auth/userinfo.profile")
         );
     }
 }

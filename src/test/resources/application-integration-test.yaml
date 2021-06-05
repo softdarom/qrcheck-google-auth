@@ -1,15 +1,24 @@
-\spring:
+spring:
   security:
+    api-key:
+      token:
+        outgoing: fc28c7e5-fb14-4335-9aa1-e0921cfdd4b9
     oauth2:
       client:
         registration:
           google:
-            clientId: test
-            clientSecret: test
-            redirectUri: "{baseUrl}/oauth2/callback/{registrationId}"
+            client-id: clientId
+            client-secret: clientSecret
+            redirect-uri: "{baseUrl}/oauth2/callback/{registrationId}"
             scope:
               - email
               - profile
+            api:
+              url: http://localhost:${spring.security.oauth2.client.registration.google.api.port}
+              port: 8300
+              token-info: /tokeninfo
+              token-refresh: /token
+
   groovy:
     template:
       check-template-location: false
@@ -25,6 +34,6 @@ logbook:
 
 outbound:
   feign:
-    user-handler:
-      host: http://localhost:${outbound.feign.user-handler.port}/google
-      port: 8000
+    auth-handler:
+      host: http://localhost:${outbound.feign.auth-handler.port}
+      port: 8200

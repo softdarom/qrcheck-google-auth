@@ -16,7 +16,12 @@ import java.lang.annotation.Target;
 @Target({ElementType.TYPE, ElementType.METHOD})
 @Retention(RetentionPolicy.RUNTIME)
 @Tag("spring-integration")
-@SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT, classes = {GoogleAuthApplication.class, WireMockConfig.class})
+@SpringBootTest(
+        webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT,
+        classes = {
+                GoogleAuthApplication.class,
+                WireMockConfig.class,
+        })
 @ExtendWith(SpringExtension.class)
 @ActiveProfiles("integration-test")
 public @interface SpringIntegrationTest {

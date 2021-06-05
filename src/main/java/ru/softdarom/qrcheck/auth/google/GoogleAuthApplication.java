@@ -6,13 +6,19 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.cloud.openfeign.EnableFeignClients;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
+import ru.softdarom.qrcheck.auth.google.config.property.ApiKeyProperties;
 import ru.softdarom.qrcheck.auth.google.config.property.LogbookProperties;
 
 @Generated
 @SpringBootApplication
 @EnableWebSecurity
 @EnableFeignClients
-@EnableConfigurationProperties({LogbookProperties.class})
+@EnableConfigurationProperties(
+        {
+                LogbookProperties.class,
+                ApiKeyProperties.class
+        }
+)
 public class GoogleAuthApplication {
 
     public static void main(String[] args) {

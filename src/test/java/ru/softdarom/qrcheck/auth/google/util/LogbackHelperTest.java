@@ -64,23 +64,23 @@ class LogbackHelperTest {
         });
     }
 
-    //  -----------------------   fail tests   -------------------------
+    //  -----------------------   failure tests   -------------------------
 
     @Test
     @DisplayName("getLogger(name): throws IllegalArgumentException when 'name' is null")
-    void failGetLoggerNameNull() {
+    void failureGetLoggerNameNull() {
         assertThrows(IllegalArgumentException.class, () -> LogbackHelper.getLogger(null));
     }
 
     @Test
     @DisplayName("getLogger(name): throws IllegalArgumentException when 'name' is empty")
-    void failGetLoggerNameEmpty() {
+    void failureGetLoggerNameEmpty() {
         assertThrows(IllegalArgumentException.class, () -> LogbackHelper.getLogger(""));
     }
 
     @Test
     @DisplayName("getLogger(name, level): throws IllegalArgumentException when 'level' is null")
-    void failGetLoggerLevelNull() {
+    void failureGetLoggerLevelNull() {
         assertThrows(IllegalArgumentException.class, () -> LogbackHelper.getLogger(DEFAULT_LOGGER_NAME, null));
     }
 }

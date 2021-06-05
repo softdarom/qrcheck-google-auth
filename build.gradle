@@ -1,5 +1,5 @@
 plugins {
-    id "org.springframework.boot" version "2.4.4"
+    id "org.springframework.boot" version "2.4.5"
     id "io.spring.dependency-management" version "1.0.11.RELEASE"
     id "java-library"
     id "jacoco"
@@ -29,7 +29,6 @@ repositories {
 ext {
     set("springCloudVersion", "2020.0.1")
     set("javaxVersion", "2.0.1.Final")
-    set("feignVersion", "11.1")
     set("micrometerVersion", "1.5.4")
     set("logbookVersion", "2.6.2")
     set("groovyVersion", "3.0.7")
@@ -67,10 +66,8 @@ dependencies {
     developmentOnly "org.springframework.boot:spring-boot-devtools"
 
     testImplementation "org.springframework.boot:spring-boot-starter-test"
-    testImplementation "org.springframework.security:spring-security-test"
     testImplementation "org.junit.jupiter:junit-jupiter:${junitVersion}"
     testImplementation "com.github.tomakehurst:wiremock:${wiremockVersion}"
-
 }
 
 jacocoTestReport {

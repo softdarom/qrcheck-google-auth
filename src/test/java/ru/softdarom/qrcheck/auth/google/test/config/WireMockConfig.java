@@ -9,8 +9,12 @@ import org.springframework.context.annotation.Bean;
 public class WireMockConfig {
 
     @Bean(initMethod = "start", destroyMethod = "stop")
-    public WireMockServer mockBooksService(@Value("${outbound.feign.user-handler.port}") Integer port) {
+    public WireMockServer wireAuthHandlerServiceMock(@Value("${outbound.feign.auth-handler.port}") Integer port) {
         return new WireMockServer(port);
     }
 
+    @Bean(initMethod = "start", destroyMethod = "stop")
+    public WireMockServer wireGoogleServiceMock(@Value("${spring.security.oauth2.client.registration.google.api.port}") Integer port) {
+        return new WireMockServer(port);
+    }
 }

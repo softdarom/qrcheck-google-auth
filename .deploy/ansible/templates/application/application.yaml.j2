@@ -1,15 +1,23 @@
 spring:
   security:
+    api-key:
+      token:
+        outgoing: {{ spring.security.api_key.token }}
     oauth2:
       client:
         registration:
           google:
-            clientId: ${CLIENT_ID}
-            clientSecret: ${CLIENT_SECRET}
-            redirectUri: "{baseUrl}/oauth2/callback/{registrationId}"
+            client-id: ${CLIENT_ID}
+            client-secret: ${CLIENT_SECRET}
+            redirect-uri: "{baseUrl}/oauth2/callback/{registrationId}"
             scope:
               - email
               - profile
+            api:
+              url: https://oauth2.googleapis.com
+              token-info: /tokeninfo
+              token-refresh: /token
+
   groovy:
     template:
       check-template-location: false
@@ -24,5 +32,5 @@ logbook:
 
 outbound:
   feign:
-    user_handler:
-      host: {{ outbound.feign.user_handler.schema }}://{{ outbound.feign.user_handler.host }}:{{ outbound.feign.user_handler.port }}/google
+    auth-handler:
+      host: {{ outbound.feign.auth_handler.schema }}://{{ outbound.feign.auth_handler.host }}:{{ outbound.feign.auth_handler.port }}

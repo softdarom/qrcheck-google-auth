@@ -43,6 +43,7 @@ public class GoogleAuthorizationRequestResolver implements OAuth2AuthorizationRe
         var additionalParameters = new LinkedHashMap<>(authorizationRequest.getAdditionalParameters());
         //for getting refresh token
         additionalParameters.put("access_type", "offline");
+        additionalParameters.put("prompt", "consent");
 
         return OAuth2AuthorizationRequest.from(authorizationRequest)
                 .additionalParameters(additionalParameters)

@@ -13,7 +13,6 @@ import java.util.Optional;
 
 import static ru.softdarom.qrcheck.auth.google.util.LogbackHelper.getLogger;
 
-
 @Configuration
 class LogbookConfig {
 
