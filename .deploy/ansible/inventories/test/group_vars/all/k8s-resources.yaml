@@ -6,7 +6,6 @@ resources:
     cpu: 1000m
     memory: 512Mi
   java_opts:
-    - "-server -Xms128M -Xmx512M"
-    - "-XX:+UseContainerSupport"
-    - "-XX:+AlwaysActAsServerClassMachine"
-    - "--illegal-access=deny"
+    - -XX:MaxRAMPercentage=65.0
+    - -XX:+UseContainerSupport
+    - --illegal-access=deny
