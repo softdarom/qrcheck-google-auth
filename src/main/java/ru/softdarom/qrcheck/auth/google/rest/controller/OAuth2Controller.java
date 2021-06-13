@@ -13,7 +13,6 @@ import ru.softdarom.qrcheck.auth.google.service.OAuth2Service;
 
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
-import java.util.Optional;
 
 @RestController
 @RequestMapping("/oauth2")
@@ -36,14 +35,14 @@ public class OAuth2Controller {
                     .header(HEADER_ACCESS_TOKEN_NAME, oAuth2Info.getToken().getAccessToken().getToken())
                     .body(oAuth2Info.getUser());
         } catch (Exception e) {
-            response.sendRedirect("/oauth2/failure?message=" + e.getMessage());
+            response.sendRedirect("/oauth2/failure");
             return ResponseEntity.status(HttpStatus.FOUND).build();
         }
     }
 
     @GetMapping("/failure")
-    public ResponseEntity<BaseResponse> failure(@RequestParam(required = false) String message) {
-        return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(new BaseResponse(Optional.ofNullable(message).orElse("Unknown error")));
+    public ResponseEntity<BaseResponse> failure() {
+        return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(new BaseResponse("Error Google Authentication!"));
     }
 
     @GetMapping("/tokens/info")
