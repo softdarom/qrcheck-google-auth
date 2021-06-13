@@ -17,11 +17,13 @@ class UserBuilderTest {
     @DisplayName("build(): returns correct dto'")
     void successfulBuild() {
         var actual = new UserBuilder(oAuth2User()).build();
-        assertNotNull(actual);
+        assertAll(() -> {
+            assertNotNull(actual);
 
-        assertFalse(actual.getFirstName().isEmpty());
-        assertFalse(actual.getSecondName().isEmpty());
-        assertFalse(actual.getEmail().isEmpty());
+            assertFalse(actual.getFirstName().isEmpty());
+            assertFalse(actual.getSecondName().isEmpty());
+            assertFalse(actual.getEmail().isEmpty());
+        });
     }
 
     //  -----------------------   failure tests   -------------------------

@@ -46,8 +46,10 @@ class AuthHandlerClientTest {
     @DisplayName("saveOAuth2Info(): returns 200 when a user info is saved")
     void successfulSaveOAuth2Info() throws JsonProcessingException {
         var request = authHandlerTokenUserInfoRequest();
+        var apiKey = generateString();
         wireAuthHandlerServiceMock
                 .stubFor(post(urlEqualTo(POST_SAVE_USER_TOKEN_INFO))
+                        .withHeader("X-ApiKey-Authorization", equalTo(apiKey))
                         .withRequestBody(containing(objectMapper.writeValueAsString(request)))
                         .willReturn(
                                 aResponse()
@@ -57,7 +59,7 @@ class AuthHandlerClientTest {
                         )
 
                 );
-        assertDoesNotThrow(() -> client.saveOAuth2Info(generateString(), request));
+        assertDoesNotThrow(() -> client.saveOAuth2Info(apiKey, request));
     }
 
     //  -----------------------   failure tests   -------------------------
@@ -66,8 +68,10 @@ class AuthHandlerClientTest {
     @DisplayName("saveOAuth2Info(): returns 401 when unauthorized calls")
     void failureSaveOAuth2InfoUnauthorized() throws JsonProcessingException {
         var request = authHandlerTokenUserInfoRequest();
+        var apiKey = generateString();
         wireAuthHandlerServiceMock
                 .stubFor(post(urlEqualTo(POST_SAVE_USER_TOKEN_INFO))
+                        .withHeader("X-ApiKey-Authorization", equalTo(apiKey))
                         .withRequestBody(containing(objectMapper.writeValueAsString(request)))
                         .willReturn(
                                 aResponse()
@@ -76,15 +80,17 @@ class AuthHandlerClientTest {
                         )
 
                 );
-        assertThrows(FeignException.Unauthorized.class, () -> client.saveOAuth2Info(generateString(), request));
+        assertThrows(FeignException.Unauthorized.class, () -> client.saveOAuth2Info(apiKey, request));
     }
 
     @Test
     @DisplayName("saveOAuth2Info(): returns 500 when a unknown exception occurs")
     void failureSaveOAuth2InfoInternalServerError() throws JsonProcessingException {
         var request = authHandlerTokenUserInfoRequest();
+        var apiKey = generateString();
         wireAuthHandlerServiceMock
                 .stubFor(post(urlEqualTo(POST_SAVE_USER_TOKEN_INFO))
+                        .withHeader("X-ApiKey-Authorization", equalTo(apiKey))
                         .withRequestBody(containing(objectMapper.writeValueAsString(request)))
                         .willReturn(
                                 aResponse()
@@ -93,6 +99,6 @@ class AuthHandlerClientTest {
                         )
 
                 );
-        assertThrows(FeignException.InternalServerError.class, () -> client.saveOAuth2Info(generateString(), request));
+        assertThrows(FeignException.InternalServerError.class, () -> client.saveOAuth2Info(apiKey, request));
     }
 }

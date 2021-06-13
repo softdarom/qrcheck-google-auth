@@ -1,4 +1,4 @@
-package ru.softdarom.qrcheck.auth.google.rest.controller;
+package ru.softdarom.qrcheck.auth.google.controller;
 
 import feign.FeignException;
 import org.junit.jupiter.api.AfterEach;
@@ -12,8 +12,8 @@ import org.springframework.test.util.ReflectionTestUtils;
 import ru.softdarom.qrcheck.auth.google.exception.NotAuthenticatedException;
 import ru.softdarom.qrcheck.auth.google.model.dto.UserDto;
 import ru.softdarom.qrcheck.auth.google.model.dto.response.BaseResponse;
+import ru.softdarom.qrcheck.auth.google.rest.controller.OAuth2Controller;
 import ru.softdarom.qrcheck.auth.google.service.OAuth2Service;
-import ru.softdarom.qrcheck.auth.google.test.tag.SpringIntegrationTest;
 
 import java.util.Objects;
 
@@ -22,12 +22,10 @@ import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.*;
 import static ru.softdarom.qrcheck.auth.google.test.generator.OAuthGenerator.authHandlerUserResponse;
 
-@SpringIntegrationTest
 @DisplayName("OAuth2Controller Spring Integration Test")
 class OAuth2ControllerTest extends AbstractControllerTest {
 
     private static final String HEADER_ACCESS_TOKEN_NAME = "X-Authorization-Token";
-    private static final String HEADER_AUTH_PROVIDER_NAME = "X-Authorization-Provider";
 
     private static final String URI_SUCCESS = "/oauth2/success";
     private static final String URI_FAILURE = "/oauth2/failure";

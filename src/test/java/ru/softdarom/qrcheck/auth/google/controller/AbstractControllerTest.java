@@ -1,4 +1,4 @@
-package ru.softdarom.qrcheck.auth.google.rest.controller;
+package ru.softdarom.qrcheck.auth.google.controller;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.mockito.MockitoAnnotations;
@@ -10,6 +10,7 @@ import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpMethod;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import ru.softdarom.qrcheck.auth.google.test.tag.SpringIntegrationTest;
 
 import java.util.function.BiConsumer;
 
@@ -17,6 +18,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static ru.softdarom.qrcheck.auth.google.test.helper.UriHelper.generateUri;
 
+@SpringIntegrationTest
 abstract class AbstractControllerTest {
 
     @LocalServerPort
@@ -37,10 +39,6 @@ abstract class AbstractControllerTest {
 
     protected <T, R> ResponseEntity<T> post(R request, String path) {
         return exchange(request, HttpMethod.POST, path);
-    }
-
-    protected <T, R> ResponseEntity<T> put(R request, String path) {
-        return exchange(request, HttpMethod.PUT, path);
     }
 
     protected <T, R> ResponseEntity<T> exchange(R request, HttpMethod method, String path) {

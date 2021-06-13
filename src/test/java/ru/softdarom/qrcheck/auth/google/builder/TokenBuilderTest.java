@@ -17,18 +17,20 @@ class TokenBuilderTest {
     @DisplayName("build(): returns correct dto'")
     void successfulBuild() {
         var actual = new TokenBuilder(oAuth2AuthorizedClient()).build();
-        assertNotNull(actual);
+        assertAll(() -> {
+            assertNotNull(actual);
 
-        assertNotNull(actual.getSub());
-        assertNotNull(actual.getProvider());
-        assertNotNull(actual.getAccessToken());
-        assertNotNull(actual.getRefreshToken());
+            assertNotNull(actual.getSub());
+            assertNotNull(actual.getProvider());
+            assertNotNull(actual.getAccessToken());
+            assertNotNull(actual.getRefreshToken());
 
-        assertFalse(actual.getAccessToken().getToken().isEmpty());
-        assertNotNull(actual.getAccessToken().getIssuedAt());
-        assertNotNull(actual.getAccessToken().getExpiresAt());
+            assertFalse(actual.getAccessToken().getToken().isEmpty());
+            assertNotNull(actual.getAccessToken().getIssuedAt());
+            assertNotNull(actual.getAccessToken().getExpiresAt());
 
-        assertFalse(actual.getRefreshToken().getToken().isEmpty());
+            assertFalse(actual.getRefreshToken().getToken().isEmpty());
+        });
     }
 
     //  -----------------------   failure tests   -------------------------
