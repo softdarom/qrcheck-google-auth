@@ -51,6 +51,12 @@ class OAuth2SecurityConfig extends WebSecurityConfigurerAdapter {
     public void configure(WebSecurity web) {
         web.ignoring()
                 .antMatchers(
+                        "/",
+                        "/v3/api-docs/**",
+                        "/swagger-ui/**",
+                        "/swagger-api/**"
+                )
+                .antMatchers(
                         "/actuator/health/**",
                         "/actuator/prometheus/**",
                         "/oauth2/tokens/**"

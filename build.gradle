@@ -30,6 +30,7 @@ ext {
     set("springCloudVersion", "2020.0.1")
     set("javaxVersion", "2.0.1.Final")
     set("micrometerVersion", "1.5.4")
+    set("swaggerVersion", "1.5.9")
     set("logbookVersion", "2.6.2")
     set("groovyVersion", "3.0.7")
     set("junitVersion", "5.4.2")
@@ -54,6 +55,7 @@ dependencies {
     api "javax.validation:validation-api:${javaxVersion}"
     api "io.micrometer:micrometer-registry-prometheus:${micrometerVersion}"
     api "org.zalando:logbook-spring-boot-starter:${logbookVersion}"
+    api "org.springdoc:springdoc-openapi-ui:${swaggerVersion}"
 
     runtimeOnly "org.codehaus.groovy:groovy-all:${groovyVersion}"
 

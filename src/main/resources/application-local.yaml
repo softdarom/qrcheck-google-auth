@@ -22,6 +22,21 @@ spring:
     template:
       check-template-location: false
 
+springdoc:
+  api-docs:
+    path: "/swagger-api"
+    enabled: true
+  swagger-ui:
+    path: "/"
+  info:
+    title: Google Auth RESTful API
+    description: Сервис управления oAuth2 для Google
+    version: V1
+    licence-url: https://qrchk.ru/licence
+    owner-name: QRCheck
+    owner-url: https://qrchk.ru
+    owner-email: it.support@softdarom.ru
+
 logbook:
   strategy: body-only-if-status-at-least
   format:
@@ -30,6 +45,9 @@ logbook:
     name: GOOGLE-AUTH-REST
   exclude:
     - /actuator/**
+    - /v3/api-docs/**
+    - /swagger-ui/**
+    - /swagger-api/**
 
 outbound:
   feign:
