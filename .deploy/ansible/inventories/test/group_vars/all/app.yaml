@@ -39,12 +39,19 @@ spring:
               6535613037303462650a313363383637393836303637643862383538323537653334336366616166
               63666164636231353036323632646631386436616362363963626330373162376364
 
+springdoc:
+  api_docs:
+    enabled: true
+
 logbook:
   strategy: body-only-if-status-at-least
   format:
     style: http
   exclude:
     - /actuator/**
+    - /v3/api-docs/**
+    - /swagger-ui/**
+    - /swagger-api/**
 
 outbound:
   feign:
