@@ -10,11 +10,6 @@ application:
     actuator:
       name: actuator
       number: 7000
-
   path:
     config: "{{ work_dir }}/config"
     logs: "{{ work_dir }}/logs"
-
-docker:
-  project: qrcheck
-  image: google-auth

@@ -33,6 +33,7 @@ ext {
     set("swaggerVersion", "1.5.9")
     set("logbookVersion", "2.6.2")
     set("groovyVersion", "3.0.7")
+    set("logstashVersion", "5.2")
     set("junitVersion", "5.4.2")
     set("wiremockVersion", "2.27.2")
 }
@@ -56,6 +57,7 @@ dependencies {
     api "io.micrometer:micrometer-registry-prometheus:${micrometerVersion}"
     api "org.zalando:logbook-spring-boot-starter:${logbookVersion}"
     api "org.springdoc:springdoc-openapi-ui:${swaggerVersion}"
+    api "net.logstash.logback:logstash-logback-encoder:${logstashVersion}"
 
     runtimeOnly "org.codehaus.groovy:groovy-all:${groovyVersion}"
 
