@@ -9,8 +9,10 @@ import org.springframework.context.annotation.Configuration;
 @Configuration
 public class MicrometerConfig {
 
+    private static final String APPLICATION_NAME_TAG = "appliction";
+
     @Bean
     MeterRegistryCustomizer<MeterRegistry> metricsCustomTags(@Value("${spring.application.name}") String applicationName) {
-        return registry -> registry.config().commonTags("application", applicationName);
+        return registry -> registry.config().commonTags(APPLICATION_NAME_TAG, applicationName);
     }
 }
