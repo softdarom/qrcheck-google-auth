@@ -1,1 +1,2 @@
+![TeamCity build status](https://teamcity.softdarom.ru/app/rest/builds/buildType:id:QRCheck_Backend_GoogleAuth_Build/statusIcon.svg)
 [![codecov](https://codecov.io/gh/softdarom/qrcheck-google-auth/branch/develop/graph/badge.svg?token=X7M7CBKHSV)](https://codecov.io/gh/softdarom/qrcheck-google-auth)
