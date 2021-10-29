@@ -1,7 +1,6 @@
 package ru.softdarom.qrcheck.auth.google.rest.controller;
 
 import io.swagger.v3.oas.annotations.Operation;
-import io.swagger.v3.oas.annotations.headers.Header;
 import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
@@ -16,6 +15,7 @@ import ru.softdarom.qrcheck.auth.google.model.dto.UserDto;
 import ru.softdarom.qrcheck.auth.google.model.dto.response.BaseResponse;
 import ru.softdarom.qrcheck.auth.google.model.dto.response.GoogleAccessTokenResponse;
 import ru.softdarom.qrcheck.auth.google.model.dto.response.GoogleTokenInfoResponse;
+import ru.softdarom.qrcheck.auth.google.model.dto.response.MobileUserInfoResponse;
 import ru.softdarom.qrcheck.auth.google.service.OAuth2Service;
 
 import javax.servlet.http.HttpServletResponse;
@@ -25,8 +25,6 @@ import java.io.IOException;
 @RestController
 @RequestMapping("/oauth2")
 public class OAuth2Controller {
-
-    private static final String HEADER_ACCESS_TOKEN_NAME = "X-Authorization-Token";
 
     private final OAuth2Service auth2Service;
 
@@ -44,9 +42,6 @@ public class OAuth2Controller {
                             content = {
                                     @Content(mediaType = "application/json", schema = @Schema(implementation = UserDto.class))
 
-                            },
-                            headers = {
-                                    @Header(name = HEADER_ACCESS_TOKEN_NAME, required = true, description = "Токен доступа Google")
                             }
                     ),
                     @ApiResponse(
@@ -59,12 +54,11 @@ public class OAuth2Controller {
             }
     )
     @GetMapping("/success")
-    public ResponseEntity<UserDto> success(Authentication authentication, HttpServletResponse response) throws IOException {
+    public ResponseEntity<MobileUserInfoResponse> success(Authentication authentication, HttpServletResponse response) throws IOException {
         try {
             var oAuth2Info = auth2Service.saveOAuthInfo(authentication);
             return ResponseEntity.ok()
-                    .header(HEADER_ACCESS_TOKEN_NAME, oAuth2Info.getToken().getAccessToken().getToken())
-                    .body(oAuth2Info.getUser());
+                    .body(new MobileUserInfoResponse(oAuth2Info));
         } catch (Exception e) {
             response.sendRedirect("/oauth2/failure");
             return ResponseEntity.status(HttpStatus.FOUND).build();

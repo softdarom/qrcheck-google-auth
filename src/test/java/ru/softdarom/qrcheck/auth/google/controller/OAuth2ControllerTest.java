@@ -10,12 +10,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.test.util.ReflectionTestUtils;
 import ru.softdarom.qrcheck.auth.google.exception.NotAuthenticatedException;
-import ru.softdarom.qrcheck.auth.google.model.dto.UserDto;
 import ru.softdarom.qrcheck.auth.google.model.dto.response.BaseResponse;
+import ru.softdarom.qrcheck.auth.google.model.dto.response.MobileUserInfoResponse;
 import ru.softdarom.qrcheck.auth.google.rest.controller.OAuth2Controller;
 import ru.softdarom.qrcheck.auth.google.service.OAuth2Service;
-
-import java.util.Objects;
 
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.ArgumentMatchers.any;
@@ -52,7 +50,7 @@ class OAuth2ControllerTest extends AbstractControllerTest {
     @DisplayName("success(): returns 200 when a user is authenticated")
     void successfulSuccess() {
         when(auth2ServiceMock.saveOAuthInfo(any())).thenReturn(authHandlerUserResponse());
-        var actual = assertDoesNotThrow(() -> get(UserDto.class, URI_SUCCESS));
+        var actual = assertDoesNotThrow(() -> get(MobileUserInfoResponse.class, URI_SUCCESS));
         assertAll(() -> {
             assertCallWithBody().accept(actual, HttpStatus.OK);
             var body = actual.getBody();
@@ -60,9 +58,8 @@ class OAuth2ControllerTest extends AbstractControllerTest {
             assertNotNull(body.getEmail());
             assertNotNull(body.getFirstName());
             assertNotNull(body.getSecondName());
+            assertNotNull(body.getAccessToken());
         });
-        var actualAccessToken = Objects.requireNonNull(actual.getHeaders().get(HEADER_ACCESS_TOKEN_NAME)).get(0);
-        assertNotNull(actualAccessToken);
         verify(auth2ServiceMock).saveOAuthInfo(any());
     }
 
