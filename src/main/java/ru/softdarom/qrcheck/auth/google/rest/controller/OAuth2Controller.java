@@ -11,7 +11,6 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.*;
-import ru.softdarom.qrcheck.auth.google.model.dto.UserDto;
 import ru.softdarom.qrcheck.auth.google.model.dto.response.BaseResponse;
 import ru.softdarom.qrcheck.auth.google.model.dto.response.GoogleAccessTokenResponse;
 import ru.softdarom.qrcheck.auth.google.model.dto.response.GoogleTokenInfoResponse;
@@ -40,7 +39,7 @@ public class OAuth2Controller {
                             responseCode = "200",
                             description = "Token'ы получены и сохранены",
                             content = {
-                                    @Content(mediaType = "application/json", schema = @Schema(implementation = UserDto.class))
+                                    @Content(mediaType = "application/json", schema = @Schema(implementation = MobileUserInfoResponse.class))
 
                             }
                     ),
