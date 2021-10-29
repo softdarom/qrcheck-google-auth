@@ -1,5 +1,6 @@
 package ru.softdarom.qrcheck.auth.google.model.dto.response;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.Data;
 import lombok.Generated;
@@ -31,7 +32,7 @@ public class MobileUserInfoResponse {
     public MobileUserInfoResponse(AuthHandlerUserResponse response) {
         var notNullResponse = Optional.ofNullable(response).orElseThrow();
         setUserInfo(notNullResponse);
-        setTokenInfo(notNullResponse);
+        setAccessToken(notNullResponse);
     }
 
     @Override
@@ -39,16 +40,18 @@ public class MobileUserInfoResponse {
         return JsonHelper.asJson(this);
     }
 
-    private void setTokenInfo(AuthHandlerUserResponse notNullResponse) {
-        var notNullToken = Optional.ofNullable(notNullResponse.getToken()).orElseThrow();
-        this.accessToken = notNullToken.getAccessToken().getToken();
-    }
-
+    @JsonIgnore
     private void setUserInfo(AuthHandlerUserResponse notNullResponse) {
         var notNullUser = Optional.ofNullable(notNullResponse.getUser()).orElseThrow();
         this.id = notNullUser.getId();
         this.firstName = notNullUser.getFirstName();
         this.secondName = notNullUser.getSecondName();
         this.email = notNullUser.getEmail();
+    }
+
+    @JsonIgnore
+    private void setAccessToken(AuthHandlerUserResponse notNullResponse) {
+        var notNullToken = Optional.ofNullable(notNullResponse.getToken()).orElseThrow();
+        this.accessToken = notNullToken.getAccessToken().getToken();
     }
 }

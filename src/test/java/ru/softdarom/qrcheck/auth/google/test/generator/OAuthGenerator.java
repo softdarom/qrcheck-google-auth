@@ -53,6 +53,14 @@ public final class OAuthGenerator {
         return new AuthHandlerUserResponse(userDto(), tokenDto());
     }
 
+    public static AuthHandlerUserResponse authHandlerUserResponseNullUserDto() {
+        return new AuthHandlerUserResponse(null, tokenDto());
+    }
+
+    public static AuthHandlerUserResponse authHandlerUserResponseNullTokenDto() {
+        return new AuthHandlerUserResponse(userDto(), null);
+    }
+
     public static GoogleTokenInfoResponse googleTokenInfoResponse() {
         var response = new GoogleTokenInfoResponse();
         response.setAud(generateString());

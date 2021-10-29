@@ -55,9 +55,8 @@ public class OAuth2Controller {
     @GetMapping("/success")
     public ResponseEntity<MobileUserInfoResponse> success(Authentication authentication, HttpServletResponse response) throws IOException {
         try {
-            var oAuth2Info = auth2Service.saveOAuthInfo(authentication);
             return ResponseEntity.ok()
-                    .body(new MobileUserInfoResponse(oAuth2Info));
+                    .body(new MobileUserInfoResponse(auth2Service.saveOAuthInfo(authentication)));
         } catch (Exception e) {
             response.sendRedirect("/oauth2/failure");
             return ResponseEntity.status(HttpStatus.FOUND).build();
