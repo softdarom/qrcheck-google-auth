@@ -29,6 +29,9 @@ public class MobileUserInfoResponse {
     @JsonProperty("accessToken")
     private String accessToken;
 
+    @JsonProperty("avatar")
+    private String avatar;
+
     public MobileUserInfoResponse(AuthHandlerUserResponse response) {
         var notNullResponse = Optional.ofNullable(response).orElseThrow();
         setUserInfo(notNullResponse);
@@ -47,6 +50,7 @@ public class MobileUserInfoResponse {
         this.firstName = notNullUser.getFirstName();
         this.secondName = notNullUser.getSecondName();
         this.email = notNullUser.getEmail();
+        this.avatar = notNullUser.getPicture();
     }
 
     @JsonIgnore

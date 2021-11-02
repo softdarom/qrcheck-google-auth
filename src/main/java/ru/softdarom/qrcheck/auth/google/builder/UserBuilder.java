@@ -23,6 +23,7 @@ public final class UserBuilder {
         var firstName = (String) attributes.get("given_name");
         var secondName = (String) attributes.get("family_name");
         var email = (String) attributes.get("email");
-        return new UserDto(firstName, secondName, email);
+        var picture = (String) attributes.get("picture");
+        return new UserDto(firstName, secondName, email, picture);
     }
 }

@@ -23,6 +23,7 @@ class UserBuilderTest {
             assertFalse(actual.getFirstName().isEmpty());
             assertFalse(actual.getSecondName().isEmpty());
             assertFalse(actual.getEmail().isEmpty());
+            assertFalse(actual.getPicture().isEmpty());
         });
     }
 
