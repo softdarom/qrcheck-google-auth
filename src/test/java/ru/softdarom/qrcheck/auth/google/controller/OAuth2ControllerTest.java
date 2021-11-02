@@ -59,6 +59,7 @@ class OAuth2ControllerTest extends AbstractControllerTest {
             assertNotNull(body.getFirstName());
             assertNotNull(body.getSecondName());
             assertNotNull(body.getAccessToken());
+            assertNotNull(body.getAvatar());
         });
         verify(auth2ServiceMock).saveOAuthInfo(any());
     }

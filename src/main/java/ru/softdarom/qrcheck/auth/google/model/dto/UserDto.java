@@ -23,10 +23,14 @@ public class UserDto {
     @JsonProperty("email")
     private String email;
 
-    public UserDto(String firstName, String secondName, String email) {
+    @JsonProperty("picture")
+    private String picture;
+
+    public UserDto(String firstName, String secondName, String email, String picture) {
         this.firstName = firstName;
         this.secondName = secondName;
         this.email = email;
+        this.picture = picture;
     }
 
     @Override
