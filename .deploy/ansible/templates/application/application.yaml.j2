@@ -45,7 +45,7 @@ logbook:
   format:
     style: {{ logbook.format.style | default('http') }}
   logger:
-    name: GOOGLE-AUTH-REST
+    name: REST
   exclude: {{ logbook.exclude | join(', ') }}
 
 outbound:
