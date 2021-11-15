@@ -17,7 +17,7 @@ import ru.softdarom.qrcheck.auth.google.model.dto.response.AuthHandlerUserRespon
 import ru.softdarom.qrcheck.auth.google.service.AuthHandlerService;
 
 @Service
-@Slf4j(topic = "GOOGLE-AUTH-SERVICE")
+@Slf4j(topic = "SERVICE")
 public class AuthHandlerServiceImpl implements AuthHandlerService {
 
     private final AuthHandlerClient authHandlerClient;
@@ -36,7 +36,7 @@ public class AuthHandlerServiceImpl implements AuthHandlerService {
         var user = buildGoogleOAuth2User(oAuth2User);
         var token = buildGoogleToken(oAuth2AuthorizedClient);
         var request = new AuthHandlerTokenUserInfoRequest(user, token);
-        LOGGER.info("A oAuth2Info (value: {}) will be saved.", request);
+        LOGGER.info("Объект oAuth2Info ({}) будет сохранен", request);
         var response = authHandlerClient.saveOAuth2Info(properties.getToken().getOutgoing(), request);
         return response.getBody();
     }

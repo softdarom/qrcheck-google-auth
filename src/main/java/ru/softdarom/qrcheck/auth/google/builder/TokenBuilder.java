@@ -6,7 +6,7 @@ import org.springframework.util.Assert;
 import ru.softdarom.qrcheck.auth.google.model.dto.TokenDto;
 import ru.softdarom.qrcheck.auth.google.util.JsonHelper;
 
-@Slf4j(topic = "GOOGLE-AUTH-BUILDER")
+@Slf4j(topic = "BUILDER")
 public final class TokenBuilder {
 
     private final OAuth2AuthorizedClient oAuth2AuthorizedClient;
@@ -17,7 +17,7 @@ public final class TokenBuilder {
     }
 
     public TokenDto build() {
-        LOGGER.debug("Building a TokenDto by {}", JsonHelper.asJson(oAuth2AuthorizedClient));
+        LOGGER.debug("Создание объекта TokenDto из {}", JsonHelper.asJson(oAuth2AuthorizedClient));
         var sub = oAuth2AuthorizedClient.getPrincipalName();
         var accessToken = new TokenDto.AccessToken(oAuth2AuthorizedClient.getAccessToken());
         var refreshToken = new TokenDto.RefreshToken(oAuth2AuthorizedClient.getRefreshToken());

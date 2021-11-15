@@ -7,7 +7,7 @@ import org.springframework.util.Assert;
 import ru.softdarom.qrcheck.auth.google.model.dto.UserDto;
 import ru.softdarom.qrcheck.auth.google.util.JsonHelper;
 
-@Slf4j(topic = "GOOGLE-AUTH-BUILDER")
+@Slf4j(topic = "BUILDER")
 public final class UserBuilder {
 
     private final OAuth2User oAuth2User;
@@ -18,7 +18,7 @@ public final class UserBuilder {
     }
 
     public UserDto build() {
-        LOGGER.debug("Building a UserDto by {}", JsonHelper.asJson(oAuth2User));
+        LOGGER.debug("Создание объекта UserDto из {}", JsonHelper.asJson(oAuth2User));
         var attributes = oAuth2User.getAttributes();
         var firstName = (String) attributes.get("given_name");
         var secondName = (String) attributes.get("family_name");
