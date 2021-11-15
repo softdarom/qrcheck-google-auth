@@ -12,7 +12,7 @@ import ru.softdarom.qrcheck.auth.google.model.dto.response.GoogleTokenInfoRespon
 import ru.softdarom.qrcheck.auth.google.service.GoogleService;
 
 @Service
-@Slf4j(topic = "GOOGLE-AUTH-SERVICE")
+@Slf4j(topic = "SERVICE")
 public class GoogleServiceImpl implements GoogleService {
 
     @Value("${spring.security.oauth2.client.registration.google.client-id}")

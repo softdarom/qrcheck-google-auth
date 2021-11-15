@@ -12,7 +12,7 @@ import static org.springframework.http.HttpStatus.INTERNAL_SERVER_ERROR;
 import static org.springframework.http.HttpStatus.UNAUTHORIZED;
 
 @RestControllerAdvice
-@Slf4j(topic = "GOOGLE-AUTH-EXCEPTION-HANDLER")
+@Slf4j(topic = "EXCEPTION-HANDLER")
 public class GoogleAuthExceptionHandler {
 
     @ExceptionHandler({FeignException.Unauthorized.class, NotAuthenticatedException.class})
