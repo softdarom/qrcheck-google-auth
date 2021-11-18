@@ -39,7 +39,7 @@ public class OAuth2ServiceImpl implements OAuth2Service {
     @Override
     public OAuth2AuthorizedClient getOAuthClient(Authentication authentication) {
         checkNullAuthentication(authentication);
-        LOGGER.info("Получение клиента oAuth2 '{}' из Authentication", authentication.getName());
+        LOGGER.info("Getting an oAuth2 client by '{}' authentication.", authentication.getName());
         var oAuthToken = (OAuth2AuthenticationToken) authentication;
         return authorizedClientService.loadAuthorizedClient(
                 oAuthToken.getAuthorizedClientRegistrationId(),
