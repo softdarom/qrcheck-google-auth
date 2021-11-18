@@ -36,7 +36,7 @@ public class AuthHandlerServiceImpl implements AuthHandlerService {
         var user = buildGoogleOAuth2User(oAuth2User);
         var token = buildGoogleToken(oAuth2AuthorizedClient);
         var request = new AuthHandlerTokenUserInfoRequest(user, token);
-        LOGGER.info("Объект oAuth2Info ({}) будет сохранен", request);
+        LOGGER.info("A oAuth2Info (value: {}) will be saved.", request);
         var response = authHandlerClient.saveOAuth2Info(properties.getToken().getOutgoing(), request);
         return response.getBody();
     }

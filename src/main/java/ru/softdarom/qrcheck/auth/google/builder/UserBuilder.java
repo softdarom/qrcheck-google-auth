@@ -18,7 +18,7 @@ public final class UserBuilder {
     }
 
     public UserDto build() {
-        LOGGER.debug("Создание объекта UserDto из {}", JsonHelper.asJson(oAuth2User));
+        LOGGER.debug("Building a UserDto by {}", JsonHelper.asJson(oAuth2User));
         var attributes = oAuth2User.getAttributes();
         var firstName = (String) attributes.get("given_name");
         var secondName = (String) attributes.get("family_name");

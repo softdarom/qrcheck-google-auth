@@ -17,7 +17,7 @@ public final class TokenBuilder {
     }
 
     public TokenDto build() {
-        LOGGER.debug("Создание объекта TokenDto из {}", JsonHelper.asJson(oAuth2AuthorizedClient));
+        LOGGER.debug("Building a TokenDto by {}", JsonHelper.asJson(oAuth2AuthorizedClient));
         var sub = oAuth2AuthorizedClient.getPrincipalName();
         var accessToken = new TokenDto.AccessToken(oAuth2AuthorizedClient.getAccessToken());
         var refreshToken = new TokenDto.RefreshToken(oAuth2AuthorizedClient.getRefreshToken());
