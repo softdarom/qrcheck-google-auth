@@ -51,4 +51,4 @@ logbook:
 outbound:
   feign:
     auth-handler:
-      host: {{ outbound.feign.auth_handler.schema }}://{{ outbound.feign.auth_handler.host }}:{{ outbound.feign.auth_handler.port }}
+      host: {{ outbound.feign.auth_handler | default('http://auth-handler:8000') }}

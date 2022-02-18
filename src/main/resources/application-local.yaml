@@ -52,4 +52,4 @@ logbook:
 outbound:
   feign:
     auth-handler:
-      host: "http://localhost:${OUTBOUND_FEIGN_AUTH_HANDLER_PORT}"
+      host: "${AUTH_HANDLER_PORT}"
