@@ -1,4 +1,4 @@
-FROM openjdk:11.0.10-jdk
+FROM openjdk:17-alpine
 
 ARG APP_HOME=/opt/google-auth
 ARG APP_JAR=google-auth.jar

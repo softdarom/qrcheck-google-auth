@@ -1,11 +1,17 @@
 plugins {
-    id "org.springframework.boot" version "2.4.5"
+    id "org.springframework.boot" version "2.6.1"
     id "io.spring.dependency-management" version "1.0.11.RELEASE"
     id "java-library"
     id "jacoco"
 }
 
 group = "ru.softdarom.qrcheck"
+sourceCompatibility = JavaVersion.VERSION_17
+targetCompatibility = JavaVersion.VERSION_17
+
+jar {
+    enabled = false
+}
 
 bootJar {
     archiveFileName = "google-auth.jar"
@@ -26,21 +32,9 @@ repositories {
     mavenCentral()
 }
 
-ext {
-    set("springCloudVersion", "2020.0.1")
-    set("javaxVersion", "2.0.1.Final")
-    set("micrometerVersion", "1.5.4")
-    set("swaggerVersion", "1.5.9")
-    set("logbookVersion", "2.6.2")
-    set("groovyVersion", "3.0.7")
-    set("logstashVersion", "5.2")
-    set("junitVersion", "5.4.2")
-    set("wiremockVersion", "2.27.2")
-}
-
 dependencyManagement {
     imports {
-        mavenBom "org.springframework.cloud:spring-cloud-dependencies:${springCloudVersion}"
+        mavenBom "org.springframework.cloud:spring-cloud-dependencies:2021.0.0"
     }
 }
 
@@ -51,15 +45,17 @@ dependencies {
     api "org.springframework.boot:spring-boot-starter-actuator"
     api "org.springframework.cloud:spring-cloud-starter-sleuth"
     api "org.springframework.cloud:spring-cloud-starter-openfeign"
+    api "org.springframework.boot:spring-boot-starter-validation"
     api "org.springframework.cloud:spring-cloud-starter-kubernetes-client-config"
 
-    api "javax.validation:validation-api:${javaxVersion}"
-    api "io.micrometer:micrometer-registry-prometheus:${micrometerVersion}"
-    api "org.zalando:logbook-spring-boot-starter:${logbookVersion}"
-    api "org.springdoc:springdoc-openapi-ui:${swaggerVersion}"
-    api "net.logstash.logback:logstash-logback-encoder:${logstashVersion}"
+    api "javax.validation:validation-api:2.0.1.Final"
+    api "io.micrometer:micrometer-registry-prometheus:1.8.2"
+    api "org.zalando:logbook-spring-boot-starter:2.14.0"
+    api 'org.springdoc:springdoc-openapi-ui:1.6.6'
+    api "net.logstash.logback:logstash-logback-encoder:7.0.1"
 
-    runtimeOnly "org.codehaus.groovy:groovy-all:${groovyVersion}"
+    runtimeOnly "org.codehaus.groovy:groovy:3.0.9"
+    runtimeOnly "org.codehaus.groovy:groovy-json:3.0.9"
 
     compileOnly "org.projectlombok:lombok"
     compileOnly "org.springframework.boot:spring-boot-configuration-processor"
@@ -70,8 +66,8 @@ dependencies {
     developmentOnly "org.springframework.boot:spring-boot-devtools"
 
     testImplementation "org.springframework.boot:spring-boot-starter-test"
-    testImplementation "org.junit.jupiter:junit-jupiter:${junitVersion}"
-    testImplementation "com.github.tomakehurst:wiremock:${wiremockVersion}"
+    testImplementation 'org.junit.jupiter:junit-jupiter:5.8.2'
+    testImplementation "com.github.tomakehurst:wiremock:2.27.2"
 }
 
 jacocoTestReport {
@@ -101,3 +97,11 @@ test {
     }
     finalizedBy(jacocoTestReport, jacocoTestCoverageVerification)
 }
+
+task deployConfigsArchive(type: Zip) {
+    from ".deploy/"
+    archiveName "deploy.zip"
+    destinationDirectory.set(file("$buildDir"))
+}
+
+tasks.getByName("assemble").finalizedBy("deployConfigsArchive")
