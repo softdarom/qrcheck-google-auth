@@ -28,8 +28,15 @@ configurations {
 }
 
 repositories {
-    mavenLocal()
     mavenCentral()
+    maven {
+        credentials {
+            username = project.findProperty("gpr.user") ?: System.getenv("GPR_USERNAME")
+            password = project.findProperty("gpr.token") ?: System.getenv("GPR_TOKEN")
+        }
+        url = uri("https://maven.pkg.github.com/softdarom/packages")
+    }
+    mavenLocal()
 }
 
 dependencyManagement {
