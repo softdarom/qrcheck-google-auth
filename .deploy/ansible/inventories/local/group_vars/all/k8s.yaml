@@ -1,4 +1,4 @@
-namespace: default
+namespace: local
 
 deployment:
   image_pull_policy: Never

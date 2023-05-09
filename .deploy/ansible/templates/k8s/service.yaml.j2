@@ -5,7 +5,7 @@ metadata:
   name: {{ application.name }}
   labels:
     app: {{ application.name }}
-    version: {{ lookup('env', 'DOCKER_VERSION') | default('unknown') }}
+    version: {{ application.version }}
 spec:
   sessionAffinity: ClientIP
   type: ClusterIP

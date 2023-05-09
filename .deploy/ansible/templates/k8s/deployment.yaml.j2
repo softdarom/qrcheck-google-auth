@@ -5,7 +5,7 @@ metadata:
   name: {{ application.name }}
   labels:
     app: {{ application.name }}
-    version: {{ lookup("env", "DOCKER_VERSION") | default("unknown") }}
+    version: {{ application.version }}
 spec:
   minReadySeconds: {{ deployment.ready.initial_delay_seconds | default(30) }}
   progressDeadlineSeconds: {{ deployment.startup.progress_deadline_seconds | default(300) }}
@@ -24,11 +24,11 @@ spec:
       name: {{ application.name }}
       labels:
         app: {{ application.name }}
-        version: {{ lookup("env", "DOCKER_VERSION") | default("unknown") }}
+        version: {{ application.version }}
     spec:
       containers:
         - name: {{ application.name }}
-          image: {{ image.application.project }}/{{ image.application.image }}:{{ lookup("env", "DOCKER_VERSION") }}
+          image: {{ image.application.project }}/{{ image.application.image }}:{{ application.version }}
           imagePullPolicy: {{ deployment.image_pull_policy | default("IfNotPresent") }}
 
           env:

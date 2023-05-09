@@ -17,9 +17,6 @@ import ru.softdarom.qrcheck.auth.google.model.dto.response.GoogleTokenInfoRespon
 import ru.softdarom.qrcheck.auth.google.model.dto.response.MobileUserInfoResponse;
 import ru.softdarom.qrcheck.auth.google.service.OAuth2Service;
 
-import javax.servlet.http.HttpServletResponse;
-import java.io.IOException;
-
 @Tag(name = "oAuth2", description = "Контроллер управления oAuth 2.0 token'ами")
 @RestController
 @RequestMapping("/oauth2")
@@ -53,14 +50,8 @@ public class OAuth2Controller {
             }
     )
     @GetMapping("/success")
-    public ResponseEntity<MobileUserInfoResponse> success(Authentication authentication, HttpServletResponse response) throws IOException {
-        try {
-            return ResponseEntity.ok()
-                    .body(new MobileUserInfoResponse(auth2Service.saveOAuthInfo(authentication)));
-        } catch (Exception e) {
-            response.sendRedirect("/oauth2/failure");
-            return ResponseEntity.status(HttpStatus.FOUND).build();
-        }
+    public MobileUserInfoResponse success(Authentication authentication) {
+        return new MobileUserInfoResponse(auth2Service.saveOAuthInfo(authentication));
     }
 
     @Operation(summary = "Endpoint на который идет redirect после неуспешной аутентификации")
@@ -100,8 +91,8 @@ public class OAuth2Controller {
             }
     )
     @GetMapping("/tokens/info")
-    public ResponseEntity<GoogleTokenInfoResponse> getTokenInfo(@RequestParam String accessToken) {
-        return ResponseEntity.ok(auth2Service.tokenInfo(accessToken));
+    public GoogleTokenInfoResponse getTokenInfo(@RequestParam String accessToken) {
+        return auth2Service.tokenInfo(accessToken);
     }
 
     @Operation(summary = "Обновление access token по refresh token")
@@ -124,7 +115,7 @@ public class OAuth2Controller {
             }
     )
     @PostMapping("/tokens/refresh")
-    public ResponseEntity<GoogleAccessTokenResponse> refresh(@RequestParam String refreshToken) {
-        return ResponseEntity.ok(auth2Service.refresh(refreshToken));
+    public GoogleAccessTokenResponse refresh(@RequestParam String refreshToken) {
+        return auth2Service.refresh(refreshToken);
     }
 }

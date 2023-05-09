@@ -51,11 +51,10 @@ dependencies {
     api "javax.validation:validation-api:2.0.1.Final"
     api "io.micrometer:micrometer-registry-prometheus:1.8.2"
     api "org.zalando:logbook-spring-boot-starter:2.14.0"
-    api 'org.springdoc:springdoc-openapi-ui:1.6.6'
+    api "org.springdoc:springdoc-openapi-ui:1.6.6"
     api "net.logstash.logback:logstash-logback-encoder:7.0.1"
 
-    runtimeOnly "org.codehaus.groovy:groovy:3.0.9"
-    runtimeOnly "org.codehaus.groovy:groovy-json:3.0.9"
+    api "ru.softdarom.security:qrcheck-security-starter:2.1.0"
 
     compileOnly "org.projectlombok:lombok"
     compileOnly "org.springframework.boot:spring-boot-configuration-processor"
@@ -66,7 +65,7 @@ dependencies {
     developmentOnly "org.springframework.boot:spring-boot-devtools"
 
     testImplementation "org.springframework.boot:spring-boot-starter-test"
-    testImplementation 'org.junit.jupiter:junit-jupiter:5.8.2'
+    testImplementation "org.junit.jupiter:junit-jupiter:5.8.2"
     testImplementation "com.github.tomakehurst:wiremock:2.27.2"
 }
 
@@ -98,10 +97,10 @@ test {
     finalizedBy(jacocoTestReport, jacocoTestCoverageVerification)
 }
 
-task deployConfigsArchive(type: Zip) {
+tasks.register('deployConfigsArchive', Zip) {
     from ".deploy/"
     archiveName "deploy.zip"
     destinationDirectory.set(file("$buildDir"))
 }
 
-tasks.getByName("assemble").finalizedBy("deployConfigsArchive")
+tasks.named("assemble").get().finalizedBy("deployConfigsArchive")
