@@ -5,14 +5,14 @@ metadata:
   name: {{ application.name }}
   labels:
     app: {{ application.name }}
-    version: {{ lookup('env', 'DOCKER_VERSION') | default('unknown') }}
+    version: {{ application.version }}
 data:
   bootstrap.yaml: |
     {{ lookup('template', '{{ playbook_dir }}/templates/application/bootstrap.yaml.j2') | indent }}
   application.yaml: |
     {{ lookup('template', '{{ playbook_dir }}/templates/application/application.yaml.j2') | indent }}
-  logback.groovy: |
-    {{ lookup('template', '{{ playbook_dir }}/templates/application/logback.groovy.j2') | indent }}
+  logback.xml: |
+    {{ lookup('template', '{{ playbook_dir }}/templates/application/logback.xml.j2') | indent }}
 ---
 
 kind: ConfigMap

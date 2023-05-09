@@ -13,3 +13,4 @@ application:
   path:
     config: "{{ work_dir }}/config"
     logs: "{{ work_dir }}/logs"
+  version: "{{ lookup('env', 'DOCKER_VERSION') }}"

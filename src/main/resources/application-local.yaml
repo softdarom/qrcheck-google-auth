@@ -1,8 +1,13 @@
 spring:
   security:
-    api-key:
-      token:
-        outgoing: fc28c7e5-fb14-4335-9aa1-e0921cfdd4b9
+    qrcheck:
+      api-key:
+        token:
+          outgoing: ${DEFAULT_API_KEY_OUTGOING}
+      auth-server:
+        host: ${outbound.feign.auth-handler.host}
+      oauth2:
+        enabled: false
     oauth2:
       client:
         registration:
@@ -24,7 +29,7 @@ spring:
 
 springdoc:
   api-docs:
-    path: "/swagger-api"
+    path: "/swagger-api/google-auth"
     enabled: true
   swagger-ui:
     path: "/"
@@ -52,4 +57,4 @@ logbook:
 outbound:
   feign:
     auth-handler:
-      host: "${AUTH_HANDLER_PORT}"
+      host: "${AUTH_HANDLER_HOST}"

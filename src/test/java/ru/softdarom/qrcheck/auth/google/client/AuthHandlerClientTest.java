@@ -12,11 +12,12 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import ru.softdarom.qrcheck.auth.google.test.tag.SpringIntegrationTest;
 
+import java.util.UUID;
+
 import static com.github.tomakehurst.wiremock.client.WireMock.*;
 import static com.google.common.net.HttpHeaders.CONTENT_TYPE;
 import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
 import static org.junit.jupiter.api.Assertions.assertThrows;
-import static ru.softdarom.qrcheck.auth.google.test.generator.CommonGenerator.generateString;
 import static ru.softdarom.qrcheck.auth.google.test.generator.OAuthGenerator.authHandlerTokenUserInfoRequest;
 import static ru.softdarom.qrcheck.auth.google.test.generator.OAuthGenerator.authHandlerUserResponse;
 
@@ -46,10 +47,10 @@ class AuthHandlerClientTest {
     @DisplayName("saveOAuth2Info(): returns 200 when a user info is saved")
     void successfulSaveOAuth2Info() throws JsonProcessingException {
         var request = authHandlerTokenUserInfoRequest();
-        var apiKey = generateString();
+        var apiKey = UUID.randomUUID();
         wireAuthHandlerServiceMock
                 .stubFor(post(urlEqualTo(POST_SAVE_USER_TOKEN_INFO))
-                        .withHeader("X-ApiKey-Authorization", equalTo(apiKey))
+                        .withHeader("X-ApiKey-Authorization", equalTo(apiKey.toString()))
                         .withRequestBody(containing(objectMapper.writeValueAsString(request)))
                         .willReturn(
                                 aResponse()
@@ -68,10 +69,10 @@ class AuthHandlerClientTest {
     @DisplayName("saveOAuth2Info(): returns 401 when unauthorized calls")
     void failureSaveOAuth2InfoUnauthorized() throws JsonProcessingException {
         var request = authHandlerTokenUserInfoRequest();
-        var apiKey = generateString();
+        var apiKey = UUID.randomUUID();
         wireAuthHandlerServiceMock
                 .stubFor(post(urlEqualTo(POST_SAVE_USER_TOKEN_INFO))
-                        .withHeader("X-ApiKey-Authorization", equalTo(apiKey))
+                        .withHeader("X-ApiKey-Authorization", equalTo(apiKey.toString()))
                         .withRequestBody(containing(objectMapper.writeValueAsString(request)))
                         .willReturn(
                                 aResponse()
@@ -87,10 +88,10 @@ class AuthHandlerClientTest {
     @DisplayName("saveOAuth2Info(): returns 500 when a unknown exception occurs")
     void failureSaveOAuth2InfoInternalServerError() throws JsonProcessingException {
         var request = authHandlerTokenUserInfoRequest();
-        var apiKey = generateString();
+        var apiKey = UUID.randomUUID();
         wireAuthHandlerServiceMock
                 .stubFor(post(urlEqualTo(POST_SAVE_USER_TOKEN_INFO))
-                        .withHeader("X-ApiKey-Authorization", equalTo(apiKey))
+                        .withHeader("X-ApiKey-Authorization", equalTo(apiKey.toString()))
                         .withRequestBody(containing(objectMapper.writeValueAsString(request)))
                         .willReturn(
                                 aResponse()

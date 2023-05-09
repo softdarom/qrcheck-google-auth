@@ -2,6 +2,7 @@ package ru.softdarom.qrcheck.auth.google.service.impl;
 
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.oauth2.client.OAuth2AuthorizedClient;
 import org.springframework.security.oauth2.core.user.OAuth2User;
 import org.springframework.stereotype.Service;
@@ -9,24 +10,29 @@ import org.springframework.util.Assert;
 import ru.softdarom.qrcheck.auth.google.builder.TokenBuilder;
 import ru.softdarom.qrcheck.auth.google.builder.UserBuilder;
 import ru.softdarom.qrcheck.auth.google.client.AuthHandlerClient;
-import ru.softdarom.qrcheck.auth.google.config.property.ApiKeyProperties;
 import ru.softdarom.qrcheck.auth.google.model.dto.TokenDto;
 import ru.softdarom.qrcheck.auth.google.model.dto.UserDto;
 import ru.softdarom.qrcheck.auth.google.model.dto.request.AuthHandlerTokenUserInfoRequest;
 import ru.softdarom.qrcheck.auth.google.model.dto.response.AuthHandlerUserResponse;
 import ru.softdarom.qrcheck.auth.google.service.AuthHandlerService;
+import ru.softdarom.security.oauth2.service.AuthExternalService;
 
 @Service
 @Slf4j(topic = "SERVICE")
 public class AuthHandlerServiceImpl implements AuthHandlerService {
 
     private final AuthHandlerClient authHandlerClient;
-    private final ApiKeyProperties properties;
+    private final AuthExternalService authExternalService;
+
+    private final String applicationName;
 
     @Autowired
-    AuthHandlerServiceImpl(AuthHandlerClient authHandlerClient, ApiKeyProperties properties) {
+    AuthHandlerServiceImpl(AuthHandlerClient authHandlerClient,
+                           AuthExternalService authExternalService,
+                           @Value("${spring.application.name}") String applicationName) {
         this.authHandlerClient = authHandlerClient;
-        this.properties = properties;
+        this.authExternalService = authExternalService;
+        this.applicationName = applicationName;
     }
 
     @Override
@@ -37,7 +43,8 @@ public class AuthHandlerServiceImpl implements AuthHandlerService {
         var token = buildGoogleToken(oAuth2AuthorizedClient);
         var request = new AuthHandlerTokenUserInfoRequest(user, token);
         LOGGER.info("A oAuth2Info (value: {}) will be saved.", request);
-        var response = authHandlerClient.saveOAuth2Info(properties.getToken().getOutgoing(), request);
+        var response =
+                authHandlerClient.saveOAuth2Info(authExternalService.getOutgoingToken(applicationName), request);
         return response.getBody();
     }
 

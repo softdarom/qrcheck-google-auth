@@ -77,11 +77,11 @@ class OAuth2ControllerTest extends AbstractControllerTest {
     //  -----------------------   failure tests   -------------------------
 
     @Test
-    @DisplayName("success(): returns 403 when a user is not authenticated")
+    @DisplayName("success(): returns 401 when a user is not authenticated")
     void failureSuccessNotAuthenticatedException() {
         doThrow(NotAuthenticatedException.class).when(auth2ServiceMock).saveOAuthInfo(any());
         var actual = assertDoesNotThrow(() -> get(Void.class, URI_SUCCESS));
-        assertCall().accept(actual, HttpStatus.FOUND);
+        assertCall().accept(actual, HttpStatus.UNAUTHORIZED);
         var actualAccessToken = actual.getHeaders().get(HEADER_ACCESS_TOKEN_NAME);
         assertNull(actualAccessToken);
         verify(auth2ServiceMock).saveOAuthInfo(any());
@@ -92,7 +92,7 @@ class OAuth2ControllerTest extends AbstractControllerTest {
     void failureSuccessUnauthorizedException() {
         doThrow(FeignException.Unauthorized.class).when(auth2ServiceMock).saveOAuthInfo(any());
         var actual = assertDoesNotThrow(() -> get(Void.class, URI_SUCCESS));
-        assertCall().accept(actual, HttpStatus.FOUND);
+        assertCall().accept(actual, HttpStatus.UNAUTHORIZED);
         var actualAccessToken = actual.getHeaders().get(HEADER_ACCESS_TOKEN_NAME);
         assertNull(actualAccessToken);
         verify(auth2ServiceMock).saveOAuthInfo(any());
@@ -103,7 +103,7 @@ class OAuth2ControllerTest extends AbstractControllerTest {
     void failureSuccessUnknownException() {
         doThrow(RuntimeException.class).when(auth2ServiceMock).saveOAuthInfo(any());
         var actual = assertDoesNotThrow(() -> get(Void.class, URI_SUCCESS));
-        assertCall().accept(actual, HttpStatus.FOUND);
+        assertCall().accept(actual, HttpStatus.INTERNAL_SERVER_ERROR);
         var actualAccessToken = actual.getHeaders().get(HEADER_ACCESS_TOKEN_NAME);
         assertNull(actualAccessToken);
         verify(auth2ServiceMock).saveOAuthInfo(any());

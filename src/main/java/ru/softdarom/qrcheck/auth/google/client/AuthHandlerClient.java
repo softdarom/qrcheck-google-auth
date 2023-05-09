@@ -8,10 +8,12 @@ import org.springframework.web.bind.annotation.RequestHeader;
 import ru.softdarom.qrcheck.auth.google.model.dto.request.AuthHandlerTokenUserInfoRequest;
 import ru.softdarom.qrcheck.auth.google.model.dto.response.AuthHandlerUserResponse;
 
+import java.util.UUID;
+
 @FeignClient(name = "auth-handler", url = "${outbound.feign.auth-handler.host}")
 public interface AuthHandlerClient {
 
     @PostMapping("/tokens/info")
-    ResponseEntity<AuthHandlerUserResponse> saveOAuth2Info(@RequestHeader("X-ApiKey-Authorization") String apiKey, @RequestBody AuthHandlerTokenUserInfoRequest request);
+    ResponseEntity<AuthHandlerUserResponse> saveOAuth2Info(@RequestHeader("X-ApiKey-Authorization") UUID apiKey, @RequestBody AuthHandlerTokenUserInfoRequest request);
 
 }

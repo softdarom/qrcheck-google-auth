@@ -41,9 +41,7 @@ class OAuth2SecurityConfig extends WebSecurityConfigurerAdapter {
                         .authorizationRequestResolver(googleAuthorizationRequestResolver)
                     .and()
                         .redirectionEndpoint()
-                            .baseUri("/oauth2/callback/**")
-                    .and()
-                        .userInfoEndpoint();
+                            .baseUri("/oauth2/callback/**");
         // @formatter:on
     }
 

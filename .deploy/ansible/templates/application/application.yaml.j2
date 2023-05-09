@@ -1,8 +1,13 @@
 spring:
   security:
-    api-key:
-      token:
-        outgoing: {{ spring.security.api_key.token }}
+    qrcheck:
+      api-key:
+        token:
+          outgoing: ${DEFAULT_API_KEY_OUTGOING}
+      auth-server:
+        host: ${outbound.feign.auth-handler.host}
+      oauth2:
+        enabled: false
     oauth2:
       client:
         registration:
@@ -24,21 +29,21 @@ spring:
 
 springdoc:
   api-docs:
-    path: "/swagger-api"
+    path: "/swagger-api/google-auth"
     enabled: {{ springdoc.api_docs.enabled | default('false') | lower }}
   swagger-ui:
     path: "/"
   info:
     title: Google Auth RESTful API
     description: Сервис управления oAuth2 для Google
-    version: {{ lookup('env', 'DOCKER_VERSION') | default('unknown') }}
+    version: {{ application.version }}
     licence-url: https://qrchk.ru/licence
     owner-name: QRCheck
     owner-url: https://qrchk.ru
     owner-email: it.support@softdarom.ru
 
 logging:
-  config: config/logback.groovy
+  config: config/logback.xml
 
 logbook:
   strategy: {{ logbook.strategy }}

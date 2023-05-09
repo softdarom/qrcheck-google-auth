@@ -6,7 +6,6 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.cloud.openfeign.EnableFeignClients;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
-import ru.softdarom.qrcheck.auth.google.config.property.ApiKeyProperties;
 import ru.softdarom.qrcheck.auth.google.config.property.LogbookProperties;
 import ru.softdarom.qrcheck.auth.google.config.property.SwaggerProperties;
 
@@ -17,7 +16,6 @@ import ru.softdarom.qrcheck.auth.google.config.property.SwaggerProperties;
 @EnableConfigurationProperties(
         {
                 LogbookProperties.class,
-                ApiKeyProperties.class,
                 SwaggerProperties.class
         }
 )

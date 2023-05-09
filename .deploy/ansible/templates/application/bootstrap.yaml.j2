@@ -20,6 +20,8 @@ server:
   tomcat:
     mbeanregistry:
       enabled: {{ application.tomcat.mbeanregistry.enabled | default('true') | lower }}
+    servlet:
+      context-path: {{ application.servlet.context_path | default('/google-auth') }}
 
 management:
   server:

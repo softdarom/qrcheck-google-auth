@@ -1,8 +1,9 @@
 spring:
   security:
-    api-key:
-      token:
-        outgoing: fc28c7e5-fb14-4335-9aa1-e0921cfdd4b9
+    qrcheck:
+      api-key:
+        token:
+          outgoing: fc28c7e5-fb14-4335-9aa1-e0921cfdd4b9
     oauth2:
       client:
         registration:
