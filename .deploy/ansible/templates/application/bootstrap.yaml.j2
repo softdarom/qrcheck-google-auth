@@ -17,7 +17,6 @@ spring:
 
 server:
   port: {{ application.port.tcp.number }}
-  forward-headers-strategy: framework
   tomcat:
     mbeanregistry:
       enabled: {{ application.tomcat.mbeanregistry.enabled | default('true') | lower }}
