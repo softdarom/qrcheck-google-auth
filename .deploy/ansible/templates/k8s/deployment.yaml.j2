@@ -76,7 +76,7 @@ spec:
             failureThreshold: {{ deployment.health.failure_threshold | default(2) }}
           startupProbe:
             httpGet:
-              path: /actuator/health/readiness
+              path: /actuator/health/liveness
               port: {{ application.port.actuator.number }}
             initialDelaySeconds: {{ deployment.startup.initial_delay_seconds | default(10) }}
             periodSeconds: {{ deployment.startup.period_seconds | default(5) }}
