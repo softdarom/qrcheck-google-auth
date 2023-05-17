@@ -36,7 +36,7 @@ springdoc:
   info:
     title: Google Auth RESTful API
     description: Сервис управления oAuth2 для Google
-    version: {{ application.version }}
+    version: {{ lookup('env', 'DOCKER_VERSION') }}
     licence-url: https://qrchk.ru/licence
     owner-name: QRCheck
     owner-url: https://qrchk.ru
